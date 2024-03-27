@@ -24,13 +24,12 @@ class _DashBoardState extends State<DashBoard> {
       appBar: Appbar(searchBarText: searchText[currentPage]),
       body: currentPage == 0 ? const Room() : Platform(platformIndex: currentPage.toInt() - 1),
       bottomNavigationBar: Container(
-        height: 120,
+        height: 80,
         width: double.infinity,
         color: const Color(0xFF1F1F1F),
         child: Container(
-          height: 80,
           width: double.infinity,
-          margin: const EdgeInsets.all(20),
+          margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
@@ -58,14 +57,14 @@ class _DashBoardState extends State<DashBoard> {
                 (index) => BottomNavigationBarItem(
                   icon: Image.asset(
                     navIcon[index],
-                    height: 45,
+                    height: 30,
                     color: index == currentPage ? null : Theme.of(context).primaryColor,
                   ),
                   label: labelText[index],
                 ),
               ),
               selectedItemColor: navColor[currentPage],
-              selectedFontSize: 15,
+              selectedFontSize: 0,
             ),
           ),
         ),

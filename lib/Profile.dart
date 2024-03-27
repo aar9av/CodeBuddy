@@ -20,7 +20,7 @@ class Profile extends StatelessWidget {
       appBar: const Appbar(searchBarText: 'Search User'),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: max(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - 80,
+          height: max(MediaQuery.of(context).size.height - 90, 700),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -253,7 +253,7 @@ class Profile extends StatelessWidget {
                                   roomsJoined,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 32,
+                                    fontSize: 28,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
@@ -261,7 +261,7 @@ class Profile extends StatelessWidget {
                                   'Rooms\nJoined',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 )
@@ -290,7 +290,7 @@ class Profile extends StatelessWidget {
                                   roomsCreated,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 32,
+                                    fontSize: 28,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
@@ -298,7 +298,7 @@ class Profile extends StatelessWidget {
                                   'Rooms\nCreated',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 )
@@ -347,17 +347,14 @@ class Profile extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginPage()),
-          );
+
         },
         elevation: 5,
         backgroundColor: const Color(0xFF9DB2BF),
-        child: Image.asset(
-          'Assets/Edit.png',
-          height: 24,
+        child: const Icon(
+          Icons.edit,
           color: Colors.black,
+          size: 30,
         ),
       ),
     );

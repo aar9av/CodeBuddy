@@ -35,7 +35,7 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
           keyboardType: TextInputType.text,
           controller: findValue,
           decoration: InputDecoration(
-            labelText: searchBarText, // searchText[currentPage],
+            labelText: searchBarText,
             labelStyle: TextStyle(
               color: Theme.of(context).primaryColor,
             ),
