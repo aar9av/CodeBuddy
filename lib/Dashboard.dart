@@ -14,7 +14,7 @@ class _DashBoardState extends State<DashBoard> {
 
   List<String> searchText = ["Search Room", "Search Leetcode_ID", "Search Codechef_ID", "Search Codeforces_ID"];
   int currentPage = 0;
-  List<Color> navColor = [const Color(0xFF7469B6), const Color(0xFFE7A41F), const Color(0xFF9E8B85), const Color(0xFF2196F3)];
+  List<Color> navColor = [const Color(0xFF9DB2BF), const Color(0xFFE7A41F), const Color(0xFFEDC7B7), const Color(0xFF2196F3)];
   List<String> labelText = ['Room', 'Leetcode', 'Codechef', 'CodeForces'];
   List<String> navIcon = ['Assets/Home.png', 'Assets/Leetcode.png', 'Assets/Codechef.png', 'Assets/CodeForces.png'];
 
@@ -38,8 +38,8 @@ class _DashBoardState extends State<DashBoard> {
             boxShadow: [
               BoxShadow(
                 color: navColor[currentPage],
-                spreadRadius: 2,
-                blurRadius: 10,
+                spreadRadius: 1,
+                blurRadius: 5,
               ),
             ],
           ),

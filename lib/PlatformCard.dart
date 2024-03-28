@@ -12,7 +12,7 @@ class PlatformCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFF9E8B85), const Color(0xFF2196F3)];
+    List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFFEDC7B7), const Color(0xFF2196F3)];
     List<dynamic> platformData = [["128896", "19", "1762", "423"], ["5097", "4", "1799", "15"], ["Newbie", "2", "765", "6"]];
     Color cardColor = isPlatform ? themeColor[platformIndex] : Colors.black;
     Color textColor = isPlatform ? Colors.white : Theme.of(context).primaryColor;

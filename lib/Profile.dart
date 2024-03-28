@@ -1,3 +1,4 @@
+
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'Appbar.dart';
@@ -10,6 +11,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    Color themeColor = const Color(0xFF9DB2BF);
     String fullName = "Arnav Gupta";
     String username = "@aar9av";
     List<String> platformUsername= ["@aar9av", "@aar9av", "@aar9av"];
@@ -41,8 +43,8 @@ class Profile extends StatelessWidget {
                     ),
                     Text(
                       fullName,
-                      style: const TextStyle(
-                        color: Color(0xFF9DB2BF),
+                      style: TextStyle(
+                        color: themeColor,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -220,8 +222,8 @@ class Profile extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    const Color(0xFF9DB2BF),
-                                    const Color(0xFF9DB2BF).withAlpha(100),
+                                    themeColor,
+                                    themeColor.withAlpha(100),
                                   ]
                               ),
                               borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -317,7 +319,7 @@ class Profile extends StatelessWidget {
                       height: 50,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: const Color(0xFF9DB2BF),
+                          color: themeColor,
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -330,11 +332,11 @@ class Profile extends StatelessWidget {
                             MaterialPageRoute(builder: (context) => const LoginPage())
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           'LOGOUT',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Color(0xFF9DB2BF),
+                            color: themeColor,
                           ),
                         ),
                       ),
@@ -354,7 +356,7 @@ class Profile extends StatelessWidget {
           );
         },
         elevation: 5,
-        backgroundColor: const Color(0xFF9DB2BF),
+        backgroundColor: themeColor,
         child: const Icon(
           Icons.edit,
           color: Colors.black,

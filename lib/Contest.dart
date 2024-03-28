@@ -19,7 +19,7 @@ class Contest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> searchText = ["Search Leetcode_ID", "Search Codechef_ID", "Search Codeforces_ID"];
-    List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFF9E8B85), const Color(0xFF2196F3)];
+    List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFFEDC7B7), const Color(0xFF2196F3)];
     List<String> platformName = ['LEETCODE', 'CODECHEF', 'CODEFORCES'];
     List<dynamic> contests = [
       [

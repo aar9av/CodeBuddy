@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:code_buddy/RoomCard.dart';
 import 'package:flutter/material.dart';
 
+import 'CreateRoom.dart';
+
 
 class Room extends StatelessWidget {
   const Room({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Color themeColor = const Color(0xFF9DB2BF);
     List<dynamic> joinedRoomData = [
       ["@aar9av", "2 months ago", "Flutter", "1 member", "Android Development"],
       ["@shivam", "2 month ago", "C++", "10 member", "DSA"],
@@ -35,8 +38,8 @@ class Room extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        const Color(0xFF7469B6),
-                        const Color(0xFF7469B6).withAlpha(100),
+                        themeColor,
+                        themeColor.withAlpha(100),
                       ]
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -91,8 +94,8 @@ class Room extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            const Color(0xFF7469B6),
-                            const Color(0xFF7469B6).withAlpha(100),
+                            themeColor,
+                            themeColor.withAlpha(100),
                           ],
                         ),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -131,10 +134,13 @@ class Room extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateRoom(),),
+          );
         },
         elevation: 5,
-        backgroundColor: const Color(0xFF7469B6),
+        backgroundColor: themeColor,
         child: const Icon(
           Icons.add,
           color: Colors.black,

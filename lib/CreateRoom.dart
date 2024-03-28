@@ -1,29 +1,31 @@
-import 'package:code_buddy/Appbar.dart';
 import 'package:flutter/material.dart';
 
-import 'EditProfile2.dart';
+import 'Appbar.dart';
+import 'Dashboard.dart';
 
-class EditProfile1 extends StatelessWidget {
-  const EditProfile1({super.key});
+class CreateRoom extends StatefulWidget {
+  const CreateRoom({Key? key}) : super(key: key);
+
+  @override
+  State<CreateRoom> createState() => _CreateRoomState();
+}
+
+class _CreateRoomState extends State<CreateRoom> {
+  Color themeColor = const Color(0xFF9DB2BF);
+  TextEditingController roomName = TextEditingController();
+  TextEditingController roomTech = TextEditingController();
+  TextEditingController roomDescription = TextEditingController();
+  TextEditingController roomMember = TextEditingController(); // Input field controller
+  List<String> roomMembers = [];
 
   @override
   Widget build(BuildContext context) {
-    Color themeColor = const Color(0xFF9DB2BF);
-    TextEditingController fullName = TextEditingController();
-    TextEditingController email = TextEditingController();
-    TextEditingController userName = TextEditingController();
-    TextEditingController bio = TextEditingController();
-    String userFullName = 'Arnav Gupta';
-    String userUserName = "@aar9av";
-    String userEmail = "aar9av@gmail.com";
-    String userBio = "Ram Ram Bhai Sarayane,\nAaj hai hamara project banane ka doosra din,\nAur ham abhi kam kr rhe hai figma design pr...";
-
     return Scaffold(
-      appBar: const Appbar(searchBarText: 'Search User'),
+      appBar: const Appbar(searchBarText: 'Search Room'),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            height: 500,
+            height: 600,
             width: double.infinity,
             margin: const EdgeInsets.all(15),
             padding: const EdgeInsets.all(5),
@@ -42,7 +44,7 @@ class EditProfile1 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Edit Profile',
+                  'Create New Room',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
@@ -50,7 +52,7 @@ class EditProfile1 extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 450,
+                  height: 550,
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     color: Color(0xFF1F1F1F),
@@ -62,17 +64,15 @@ class EditProfile1 extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const SizedBox(
-                        height: 15,
-                      ),
+                      const SizedBox(height: 15),
                       Container(
                         height: 40,
                         color: Colors.black,
                         child: TextField(
                           keyboardType: TextInputType.text,
-                          controller: fullName,
+                          controller: roomName,
                           decoration: InputDecoration(
-                            hintText: userFullName,
+                            hintText: 'Enter Room Name',
                             hintStyle: TextStyle(
                               color: themeColor,
                               fontSize: 18,
@@ -80,10 +80,10 @@ class EditProfile1 extends StatelessWidget {
                             ),
                             border: InputBorder.none,
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: themeColor),
+                              borderSide: BorderSide(color: themeColor,),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: themeColor),
+                              borderSide: BorderSide(color: themeColor,),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           ),
@@ -98,9 +98,9 @@ class EditProfile1 extends StatelessWidget {
                         color: Colors.black,
                         child: TextField(
                           keyboardType: TextInputType.text,
-                          controller: userName,
+                          controller: roomTech,
                           decoration: InputDecoration(
-                            hintText: userUserName,
+                            hintText: 'Enter Tech Stack of Room',
                             hintStyle: TextStyle(
                               color: themeColor,
                               fontSize: 18,
@@ -108,38 +108,10 @@ class EditProfile1 extends StatelessWidget {
                             ),
                             border: InputBorder.none,
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: themeColor),
+                              borderSide: BorderSide(color: themeColor,),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: themeColor),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          ),
-                          style: TextStyle(
-                            color: themeColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 40,
-                        color: Colors.black,
-                        child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: email,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            hintText: userEmail,
-                            hintStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 18,
-                            ),
-                            border: InputBorder.none,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                              borderSide: BorderSide(color: themeColor,),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           ),
@@ -154,10 +126,10 @@ class EditProfile1 extends StatelessWidget {
                         color: Colors.black,
                         child: TextField(
                           keyboardType: TextInputType.multiline,
-                          controller: bio,
+                          controller: roomDescription,
                           maxLines: 4,
                           decoration: InputDecoration(
-                            hintText: userBio,
+                            hintText: 'Enter Description of Room',
                             hintStyle: TextStyle(
                               color: themeColor,
                               fontSize: 18,
@@ -165,10 +137,10 @@ class EditProfile1 extends StatelessWidget {
                             ),
                             border: InputBorder.none,
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: themeColor),
+                              borderSide: BorderSide(color: themeColor,),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: themeColor),
+                              borderSide: BorderSide(color: themeColor,),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           ),
@@ -178,9 +150,107 @@ class EditProfile1 extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width / 2 + 20,
+                            color: Colors.black,
+                            child: TextField(
+                              keyboardType: TextInputType.text,
+                              controller: roomMember, // Use roomMember controller for input field
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  size: 20,
+                                  color: themeColor,
+                                ),
+                                hintText: 'Search User to Add.',
+                                hintStyle: TextStyle(
+                                  color: themeColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                                border: InputBorder.none,
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: themeColor,),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: themeColor,),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                              ),
+                              style: TextStyle(
+                                color: themeColor,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                roomMembers.add(roomMember.text);
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width / 2 - 90,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    themeColor,
+                                    themeColor.withAlpha(100),
+                                  ],
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(5)),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'ADD',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      Container(
+                        height: 90,
+                        color: Colors.black,
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          readOnly: true,
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            hintText: roomMembers.join(', '), // Display room members here
+                            hintStyle: TextStyle(
+                              color: themeColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: themeColor,),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: themeColor,),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                          ),
+                          style: TextStyle(
+                            color: themeColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -212,7 +282,8 @@ class EditProfile1 extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfile2(),));
+                              Navigator.pop(context);
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashBoard(),));
                             },
                             child: Container(
                               height: 40,
@@ -230,7 +301,7 @@ class EditProfile1 extends StatelessWidget {
                               ),
                               child: const Center(
                                 child: Text(
-                                  'NEXT',
+                                  'CREATE',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 24,
@@ -249,7 +320,7 @@ class EditProfile1 extends StatelessWidget {
             ),
           ),
         ),
-      )
+      ),
     );
   }
 }

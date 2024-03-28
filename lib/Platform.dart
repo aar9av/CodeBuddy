@@ -25,7 +25,7 @@ class _PlatformState extends State<Platform> {
   List<String> platformIcon = ['Assets/Leetcode.png', 'Assets/Codechef.png', 'Assets/CodeForces.png'];
   List<String> platformName = ['Leetcode', 'Codechef', 'Codeforces'];
   List<String> platformUsername= ["@aar9av", "@aar9av", "@aar9av"];
-  List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFF9E8B85), const Color(0xFF2196F3)];
+  List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFFEDC7B7), const Color(0xFF2196F3)];
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +127,7 @@ class _PlatformState extends State<Platform> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Image.asset(
-                              'Assets/Logo.png',
+                              'Assets/Submissions.png',
                               height: 60,
                             ),
                             Text(

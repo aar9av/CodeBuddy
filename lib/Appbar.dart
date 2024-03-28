@@ -24,7 +24,7 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
       leading: IconButton(
         onPressed: () {},
         icon: Image.asset(
-          'Assets/Logo.png',
+          'Assets/Submissions.png',
         ),
       ),
       centerTitle: true,
@@ -67,7 +67,6 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
           icon: Image.asset(
             'Assets/Profile.png',
             height: 30,
-            color: Theme.of(context).primaryColor,
           ),
         ),
       ],

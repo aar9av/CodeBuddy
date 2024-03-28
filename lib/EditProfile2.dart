@@ -8,6 +8,7 @@ class EditProfile2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color themeColor = const Color(0xFF9DB2BF);
     TextEditingController leetcodeUserName = TextEditingController();
     TextEditingController codechefUserName = TextEditingController();
     TextEditingController codeforcesUserName = TextEditingController();
@@ -29,8 +30,8 @@ class EditProfile2 extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      const Color(0xFF9DB2BF),
-                      const Color(0xFF9DB2BF).withAlpha(100),
+                      themeColor,
+                      themeColor.withAlpha(100),
                     ]
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -226,16 +227,16 @@ class EditProfile2 extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width / 2 - 40,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: const Color(0xFF9DB2BF),
+                                    color: themeColor,
                                     width: 2,
                                   ),
                                   borderRadius: const BorderRadius.all(Radius.circular(5)),
                                 ),
-                                child: const Center(
+                                child: Center(
                                   child: Text(
                                     'BACK',
                                     style: TextStyle(
-                                      color: Color(0xFF9DB2BF),
+                                      color: themeColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -248,7 +249,7 @@ class EditProfile2 extends StatelessWidget {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                                 Navigator.pop(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const Profile(),));
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Profile(),));
                               },
                               child: Container(
                                 height: 40,
@@ -258,8 +259,8 @@ class EditProfile2 extends StatelessWidget {
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      const Color(0xFF9DB2BF),
-                                      const Color(0xFF9DB2BF).withAlpha(100),
+                                      themeColor,
+                                      themeColor.withAlpha(100),
                                     ],
                                   ),
                                   borderRadius: const BorderRadius.all(Radius.circular(5)),
