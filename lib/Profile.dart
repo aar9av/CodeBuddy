@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'Appbar.dart';
+import 'EditProfile1.dart';
 import 'LoginPage.dart';
 
 class Profile extends StatelessWidget {
@@ -347,7 +348,10 @@ class Profile extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const EditProfile1())
+          );
         },
         elevation: 5,
         backgroundColor: const Color(0xFF9DB2BF),

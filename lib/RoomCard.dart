@@ -47,7 +47,7 @@ class RoomCard extends StatelessWidget {
                       '  ${roomData[0]}',
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
-                        fontSize: 20,
+                        fontSize: 18,
                       ),
                     ),
                   ],
@@ -56,7 +56,7 @@ class RoomCard extends StatelessWidget {
                   roomData[1],
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
-                    fontSize: 15,
+                    fontSize: 14,
                   ),
                 )
               ],
@@ -67,7 +67,7 @@ class RoomCard extends StatelessWidget {
                 roomData[2],
                 style: TextStyle(
                   color: Theme.of(context).primaryColor,
-                  fontSize: 30,
+                  fontSize: 24,
                 ),
               ),
             ),
@@ -81,7 +81,7 @@ class RoomCard extends StatelessWidget {
                   roomData[3],
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
-                    fontSize: 18,
+                    fontSize: 15,
                   ),
                 ),
                 Container(

@@ -32,7 +32,7 @@ class _PlatformState extends State<Platform> {
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
-          height: max(MediaQuery.of(context).size.height - 170, 510),
+          height: max(MediaQuery.of(context).size.height - 170, 600),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

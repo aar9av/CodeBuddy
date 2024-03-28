@@ -35,8 +35,8 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
           keyboardType: TextInputType.text,
           controller: findValue,
           decoration: InputDecoration(
-            labelText: searchBarText,
-            labelStyle: TextStyle(
+            hintText: searchBarText,
+            hintStyle: TextStyle(
               color: Theme.of(context).primaryColor,
             ),
             prefixIcon: Icon(
@@ -46,6 +46,10 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
             ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+          ),
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
           ),
         ),
       ),
