@@ -25,7 +25,6 @@ class _RoomChatState extends State<RoomChat> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            height: 600,
             width: double.infinity,
             margin: const EdgeInsets.all(15),
             padding: const EdgeInsets.all(5),
@@ -52,7 +51,6 @@ class _RoomChatState extends State<RoomChat> {
                   ),
                 ),
                 Container(
-                  height: 550,
                   decoration: BoxDecoration(
                     color: Data.themeColors[7],
                     borderRadius: const BorderRadius.only(
@@ -78,7 +76,7 @@ class _RoomChatState extends State<RoomChat> {
                       ),
                       SingleChildScrollView(
                         child: Container(
-                          height: 440,
+                          height: 450,
                           color: Data.themeColors[7],
                           padding: const EdgeInsets.all(10),
                           child: ListView(

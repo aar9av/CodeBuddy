@@ -26,7 +26,6 @@ class _CreateRoomState extends State<CreateRoom> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            height: 600,
             width: double.infinity,
             margin:  const EdgeInsets.all(15),
             padding:  const EdgeInsets.all(5),

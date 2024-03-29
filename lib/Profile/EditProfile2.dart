@@ -41,7 +41,6 @@ class _EditProfile2State extends State<EditProfile2> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            height: 500,
             width: double.infinity,
             margin: const EdgeInsets.all(15),
             padding: const EdgeInsets.all(5),
@@ -68,7 +67,7 @@ class _EditProfile2State extends State<EditProfile2> {
                   ),
                 ),
                 Container(
-                  height: 450,
+                  height: 500,
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     color: Color(0xFF1F1F1F),

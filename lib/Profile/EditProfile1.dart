@@ -39,7 +39,6 @@ class _EditProfile1State extends State<EditProfile1> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            height: 500,
             width: double.infinity,
             margin: const EdgeInsets.all(15),
             padding: const EdgeInsets.all(5),
@@ -66,7 +65,7 @@ class _EditProfile1State extends State<EditProfile1> {
                   ),
                 ),
                 Container(
-                  height: 450,
+                  height: 500,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Data.themeColors[6],
@@ -79,7 +78,7 @@ class _EditProfile1State extends State<EditProfile1> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       const SizedBox(
-                        height: 15,
+                        height: 25,
                       ),
                       Container(
                         height: 40,

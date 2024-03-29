@@ -59,7 +59,7 @@ class _PlatformState extends State<Platform> {
                           Data.platformData[widget.platformPageIndex -1][0],
                           style: TextStyle(
                             color: Data.themeColors[widget.platformPageIndex],
-                            fontSize: 36,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
