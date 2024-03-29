@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 
 class PlatformCard extends StatelessWidget {
+  final platformPageIndex;
   final isPlatform;
 
    const PlatformCard({
     super.key,
+     required this.platformPageIndex,
     required this.isPlatform,
   });
 
@@ -24,8 +26,8 @@ class PlatformCard extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                (isPlatform ? Data.themeColors[Data.platformPageIndex] : Data.themeColors[7]),
-                (isPlatform ? Data.themeColors[Data.platformPageIndex] : Data.themeColors[7]).withAlpha(100),
+                (isPlatform ? Data.themeColors[platformPageIndex] : Data.themeColors[7]),
+                (isPlatform ? Data.themeColors[platformPageIndex] : Data.themeColors[7]).withAlpha(100),
               ]
           ),
           borderRadius:  const BorderRadius.all(Radius.circular(10)),
@@ -44,7 +46,7 @@ class PlatformCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  Data.platformData[Data.platformPageIndex - 1][2],
+                  Data.platformData[platformPageIndex - 1][2],
                   style: TextStyle(
                     color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
                     fontSize: 28,
@@ -56,14 +58,14 @@ class PlatformCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${Data.platformData[Data.platformPageIndex - 1][3]} Contests Participated',
+                  '${Data.platformData[platformPageIndex - 1][3]} Contests Participated',
                   style: TextStyle(
                     color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
                     fontSize: 15,
                   ),
                 ),
                 Text(
-                  Data.platformData[Data.platformPageIndex - 1][4],
+                  Data.platformData[platformPageIndex - 1][4],
                   style: TextStyle(
                     color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
                     fontSize: 24,
@@ -77,7 +79,7 @@ class PlatformCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${Data.platformData[Data.platformPageIndex - 1][5]} Questions Solved',
+                '${Data.platformData[platformPageIndex - 1][5]} Questions Solved',
                 style: TextStyle(
                   color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
                   fontSize: 15,

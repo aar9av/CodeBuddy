@@ -9,9 +9,10 @@ import 'PlatformCard.dart';
 import 'Submission.dart';
 
 class Platform extends StatefulWidget {
+  final platformPageIndex;
 
   // ignore: use_super_parameters
-   const Platform({Key? key}) : super(key: key);
+   const Platform({Key? key, this.platformPageIndex}) : super(key: key);
 
 
   @override
@@ -47,7 +48,7 @@ class _PlatformState extends State<Platform> {
                         color: Data.themeColors[5],
                       ),
                       child: Image.asset(
-                        Data.platformIcon[Data.platformPageIndex],
+                        Data.platformIcon[widget.platformPageIndex],
                       ),
                     ),
                     Column(
@@ -55,15 +56,15 @@ class _PlatformState extends State<Platform> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          Data.platformData[Data.platformPageIndex -1][0],
+                          Data.platformData[widget.platformPageIndex -1][0],
                           style: TextStyle(
-                            color: Data.themeColors[Data.platformPageIndex],
+                            color: Data.themeColors[widget.platformPageIndex],
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          Data.platformData[Data.platformPageIndex-1][1],
+                          Data.platformData[widget.platformPageIndex-1][1],
                           style: TextStyle(
                             color: Data.themeColors[5],
                             fontSize: 20,
@@ -79,7 +80,7 @@ class _PlatformState extends State<Platform> {
                   left: 20,
                   right: 20,
                 ),
-                child: PlatformCard(isPlatform: true),
+                child: PlatformCard(platformPageIndex: widget.platformPageIndex, isPlatform: true),
               ),
               Container(
                 width: double.infinity,
@@ -99,7 +100,7 @@ class _PlatformState extends State<Platform> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Submission()
+                            MaterialPageRoute(builder: (context) => Submission(platformPageIndex: widget.platformPageIndex)
                         ));
                       },
                       child: Container(
@@ -139,7 +140,7 @@ class _PlatformState extends State<Platform> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Contest()
+                            MaterialPageRoute(builder: (context) => Contest(platformPageIndex: widget.platformPageIndex)
                         ));
                       },
                       child: Container(

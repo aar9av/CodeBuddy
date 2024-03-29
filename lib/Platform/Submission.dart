@@ -8,7 +8,9 @@ import '../Start/Appbar.dart';
 import 'PlatformCard.dart';
 
 class Submission extends StatelessWidget {
-  const Submission({super.key});
+  final platformPageIndex;
+  
+  const Submission({super.key, this.platformPageIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +32,8 @@ class Submission extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Data.themeColors[Data.platformPageIndex],
-                      Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                      Data.themeColors[platformPageIndex],
+                      Data.themeColors[platformPageIndex].withAlpha(100),
                     ],
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -43,7 +45,7 @@ class Submission extends StatelessWidget {
                       height: 50,
                       child: Center(
                         child: Text(
-                          Data.platformData[Data.platformPageIndex - 1][0], // Accessing platform name
+                          Data.platformData[platformPageIndex - 1][0], // Accessing platform name
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 36,
@@ -52,7 +54,7 @@ class Submission extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const PlatformCard(isPlatform: false)
+                    PlatformCard(platformPageIndex: platformPageIndex, isPlatform: false)
                   ],
                 ),
               ),
@@ -77,8 +79,8 @@ class Submission extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Data.themeColors[Data.platformPageIndex],
-                            Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                            Data.themeColors[platformPageIndex],
+                            Data.themeColors[platformPageIndex].withAlpha(100),
                           ],
                         ),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -98,9 +100,9 @@ class Submission extends StatelessWidget {
                       child: SizedBox(
                         height: 300,
                         child: ListView.builder(
-                          itemCount: Data.submissions[Data.platformPageIndex - 1].length,
+                          itemCount: Data.submissions[platformPageIndex - 1].length,
                           itemBuilder: (context, index) {
-                            final submission = Data.submissions[Data.platformPageIndex - 1][index];
+                            final submission = Data.submissions[platformPageIndex - 1][index];
                             return SizedBox(
                               height: 30,
                               child: Row(
@@ -143,8 +145,8 @@ class Submission extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Data.themeColors[Data.platformPageIndex],
-                                    Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                                    Data.themeColors[platformPageIndex],
+                                    Data.themeColors[platformPageIndex].withAlpha(100),
                                   ],
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -192,8 +194,8 @@ class Submission extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Data.themeColors[Data.platformPageIndex],
-                                    Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                                    Data.themeColors[platformPageIndex],
+                                    Data.themeColors[platformPageIndex].withAlpha(100),
                                   ],
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),

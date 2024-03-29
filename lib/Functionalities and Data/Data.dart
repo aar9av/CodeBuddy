@@ -36,8 +36,6 @@ class Data {
     'Assets/CodeForces.png'
   ];
 
-  static int platformPageIndex = 0;
-
   // Current User Info
   static String username = "@aar9av";
   static String name = "Arnav Gupta";

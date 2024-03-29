@@ -9,7 +9,9 @@ import '../Start/Appbar.dart';
 import 'PlatformCard.dart';
 
 class Contest extends StatelessWidget {
-  const Contest({Key? key}) : super(key: key);
+  final platformPageIndex;
+  
+  const Contest({Key? key, this.platformPageIndex}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +33,8 @@ class Contest extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Data.themeColors[Data.platformPageIndex],
-                      Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                      Data.themeColors[platformPageIndex],
+                      Data.themeColors[platformPageIndex].withAlpha(100),
                     ],
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -44,7 +46,7 @@ class Contest extends StatelessWidget {
                       height: 50,
                       child: Center(
                         child: Text(
-                          Data.platformData[Data.platformPageIndex - 1][0],
+                          Data.platformData[platformPageIndex - 1][0],
                           style: TextStyle(
                             color: Data.themeColors[7],
                             fontSize: 36,
@@ -53,7 +55,7 @@ class Contest extends StatelessWidget {
                         ),
                       ),
                     ),
-                    PlatformCard(isPlatform: false)
+                    PlatformCard(platformPageIndex: platformPageIndex, isPlatform: false)
                   ],
                 ),
               ),
@@ -78,8 +80,8 @@ class Contest extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Data.themeColors[Data.platformPageIndex],
-                            Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                            Data.themeColors[platformPageIndex],
+                            Data.themeColors[platformPageIndex].withAlpha(100),
                           ],
                         ),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -99,9 +101,9 @@ class Contest extends StatelessWidget {
                       child: SizedBox(
                         height: 300,
                         child: ListView.builder(
-                          itemCount: Data.contests[Data.platformPageIndex - 1].length,
+                          itemCount: Data.contests[platformPageIndex - 1].length,
                           itemBuilder: (context, index) {
-                            final contest = Data.contests[Data.platformPageIndex - 1][index];
+                            final contest = Data.contests[platformPageIndex - 1][index];
                             return Container(
                               height: 140,
                               width: double.infinity,
@@ -192,8 +194,8 @@ class Contest extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Data.themeColors[Data.platformPageIndex],
-                                    Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                                    Data.themeColors[platformPageIndex],
+                                    Data.themeColors[platformPageIndex].withAlpha(100),
                                   ],
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -242,8 +244,8 @@ class Contest extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Data.themeColors[Data.platformPageIndex],
-                                    Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                                    Data.themeColors[platformPageIndex],
+                                    Data.themeColors[platformPageIndex].withAlpha(100),
                                   ],
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),

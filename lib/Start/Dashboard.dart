@@ -13,12 +13,13 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  int platformPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbar(searchBarText: Data.searchBarText[Data.platformPageIndex]),
-      body: Data.platformPageIndex == 0 ? const Room() : const Platform(),
+      appBar: Appbar(searchBarText: Data.searchBarText[platformPageIndex]),
+      body: platformPageIndex == 0 ? const Room() : Platform(platformPageIndex: platformPageIndex),
       bottomNavigationBar: Container(
         height: 80,
         width: double.infinity,
@@ -29,11 +30,11 @@ class _DashBoardState extends State<DashBoard> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
-              color: Data.themeColors[Data.platformPageIndex],
+              color: Data.themeColors[platformPageIndex],
             ),
             boxShadow: [
               BoxShadow(
-                color: Data.themeColors[Data.platformPageIndex],
+                color: Data.themeColors[platformPageIndex],
                 spreadRadius: 1,
                 blurRadius: 5,
               ),
@@ -42,10 +43,10 @@ class _DashBoardState extends State<DashBoard> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: BottomNavigationBar(
-              currentIndex: Data.platformPageIndex,
+              currentIndex: platformPageIndex,
               onTap: (int newPage) {
                 setState(() {
-                  Data.platformPageIndex = newPage;
+                  platformPageIndex = newPage;
                 });
               },
               items: List.generate(
@@ -54,12 +55,12 @@ class _DashBoardState extends State<DashBoard> {
                   icon: Image.asset(
                     Data.platformIcon[index],
                     height: 30,
-                    color: index == Data.platformPageIndex ? null : Data.themeColors[5],
+                    color: index == platformPageIndex ? null : Data.themeColors[5],
                   ),
                   label: '',
                 ),
               ),
-              selectedItemColor: Data.themeColors[Data.platformPageIndex],
+              selectedItemColor: Data.themeColors[platformPageIndex],
               selectedFontSize: 0,
             ),
           ),
