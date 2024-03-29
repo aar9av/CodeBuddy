@@ -1,28 +1,27 @@
-import 'package:code_buddy/Appbar.dart';
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:code_buddy/Start/Appbar.dart';
 import 'package:flutter/material.dart';
+
+import '../Functionalities and Data/Data.dart';
 import 'Chat.dart';
 
 class RoomChat extends StatefulWidget {
-  const RoomChat({super.key});
+  final int index;
+
+  const RoomChat({super.key, required this.index});
 
   @override
-  State<RoomChat> createState() => _RoomChatState();
+  _RoomChatState createState() => _RoomChatState();
 }
 
 class _RoomChatState extends State<RoomChat> {
-  Color themeColor = const Color(0xFF9DB2BF);
   TextEditingController message = TextEditingController();
-  List<dynamic> chat = [
-    ["HI", "@aar9av"],
-    ["Hello", "@shivam"],
-    ["Aur bhai kya haal chaal.", "@prince"],
-    ["Mai badhia tum log batao", "@aar9av"]
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Appbar(searchBarText: 'Search Room Member'),
+      appBar: Appbar(searchBarText: Data.searchBarText[7]),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -35,8 +34,8 @@ class _RoomChatState extends State<RoomChat> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  themeColor,
-                  themeColor.withAlpha(100),
+                  Data.themeColors[0],
+                  Data.themeColors[0].withAlpha(100),
                 ],
               ),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -44,19 +43,19 @@ class _RoomChatState extends State<RoomChat> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Create New Room',
+                Text(
+                  Data.roomData[widget.index][1],
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Data.themeColors[7],
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Container(
                   height: 550,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: Data.themeColors[7],
+                    borderRadius: const BorderRadius.only(
                       bottomRight: Radius.circular(10),
                       bottomLeft: Radius.circular(10),
                     ),
@@ -67,12 +66,12 @@ class _RoomChatState extends State<RoomChat> {
                       Container(
                         height: 80,
                         width: double.infinity,
-                        color: const Color(0xFF1F1F1F),
+                        color: Data.themeColors[6],
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                          'Room Description:\nGood Room\nVery Good Room.\nVery very Good Room',
+                          Data.roomData[widget.index][3],
                           style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Data.themeColors[5],
                             fontSize: 15,
                           ),
                         ),
@@ -80,18 +79,16 @@ class _RoomChatState extends State<RoomChat> {
                       SingleChildScrollView(
                         child: Container(
                           height: 440,
-                          color: Colors.black,
+                          color: Data.themeColors[7],
                           padding: const EdgeInsets.all(10),
                           child: ListView(
                             reverse: true,
-                            children: chat.reversed.map((message) {
+                            children: Data.roomData[widget.index][6].reversed.map<Widget>((message) {
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Chat(msg: message[0], sender: message[1]),
-                                  const SizedBox(
-                                    height: 5,
-                                  )
+                                  const SizedBox(height: 5),
                                 ],
                               );
                             }).toList(),
@@ -104,8 +101,8 @@ class _RoomChatState extends State<RoomChat> {
                           Expanded(
                             child: Container(
                               height: 30,
-                              decoration: const BoxDecoration(
-                                color: Color(0xFF1F1F1F),
+                              decoration: BoxDecoration(
+                                color: Data.themeColors[6],
                               ),
                               child: TextField(
                                 keyboardType: TextInputType.multiline,
@@ -114,20 +111,20 @@ class _RoomChatState extends State<RoomChat> {
                                 decoration: InputDecoration(
                                   hintText: 'Write Something ...',
                                   hintStyle: TextStyle(
-                                    color: Theme.of(context).primaryColor,
+                                    color: Data.themeColors[5],
                                     fontSize: 18,
                                     fontWeight: FontWeight.w300,
                                   ),
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xFF1F1F1F)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Data.themeColors[6]),
                                   ),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xFF1F1F1F)),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Data.themeColors[6]),
                                   ),
                                   contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                                 ),
                                 style: TextStyle(
-                                  color: themeColor,
+                                  color: Data.themeColors[0],
                                   fontSize: 18,
                                 ),
                               ),
@@ -136,7 +133,7 @@ class _RoomChatState extends State<RoomChat> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                chat.add([message.text, "@aar9av"]);
+                                Data.roomData[widget.index][6].add([message.text, Data.username]);
                               });
                               message.clear();
                             },
@@ -144,13 +141,13 @@ class _RoomChatState extends State<RoomChat> {
                               height: 30,
                               width: 60,
                               decoration: BoxDecoration(
-                                color: themeColor,
+                                color: Data.themeColors[0],
                                 borderRadius: const BorderRadius.only(bottomRight: Radius.circular(2)),
                               ),
-                              child: const Center(
+                              child: Center(
                                 child: Icon(
                                   Icons.send,
-                                  color: Colors.black,
+                                  color: Data.themeColors[7],
                                   size: 20,
                                 ),
                               ),

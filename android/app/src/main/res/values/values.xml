@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="google_app_id">YOUR_GOOGLE_APP_ID</string>
+    <string name="project_id">codebuddy-629ca</string>
+    <string name="firebase_url">YOUR_FIREBASE_URL</string>
+    <string name="gcm_defaultSenderId">YOUR_SENDER_ID</string>
+    <string name="api_key">AIzaSyBcPiC6DKfoWhRyez2gEogfm-6qzVJji_0</string>
+    <!-- Add other Firebase configuration settings here -->
+</resources>

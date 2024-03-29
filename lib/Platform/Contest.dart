@@ -1,45 +1,20 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, use_super_parameters
 
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'Appbar.dart';
+import '../Functionalities and Data/Data.dart';
+import '../Start/Appbar.dart';
 import 'PlatformCard.dart';
 
 class Contest extends StatelessWidget {
-  final platformIndex;
-
-  // ignore: use_super_parameters
-  const Contest({
-    Key? key,
-    required this.platformIndex,
-  }) : super(key: key);
+  const Contest({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<String> searchText = ["Search Leetcode_ID", "Search Codechef_ID", "Search Codeforces_ID"];
-    List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFFEDC7B7), const Color(0xFF2196F3)];
-    List<String> platformName = ['LEETCODE', 'CODECHEF', 'CODEFORCES'];
-    List<dynamic> contests = [
-      [
-        ["Weekly Contest 389", "5139", "17, March 2024", "+(13)", "3", "4"],
-        ["Biweekly Contest 126", "2185", "16, March 2024", "+(42)", "3", "4"],
-        ["Weekly Contest 388", "6101", "10, March 2024", "+(12)", "3", "4"],
-      ],
-      [
-        ["Starters 126 (Div 2)", "1175", "20, March 2024", "-(44)", "2", "7"],
-        ["Starters 125 (Div 2)", "243", "13, March 2024", "+(129)", "4", "7"],
-        ["Starters 124 (Div 2)", "795", "6, March 2024", "+(35)", "4", "7"],
-      ],
-      [
-        ["Round 935 (Div 3)", "3757", "19, March 2024", "+(328)", "3", "8"],
-        ["Round 933 (Div 3)", "11083", "11, March 2024", "+(437)", "3", "7"],
-      ]
-    ];
-
     return Scaffold(
-      appBar: Appbar(searchBarText: searchText[platformIndex]),
+      appBar: Appbar(searchBarText: Data.searchBarText[5]),
       body: SingleChildScrollView(
         child: SizedBox(
           height: max(MediaQuery.of(context).size.height - 190, 700),
@@ -53,12 +28,12 @@ class Contest extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        themeColor[platformIndex],
-                        themeColor[platformIndex].withAlpha(100),
-                      ]
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Data.themeColors[Data.platformPageIndex],
+                      Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                    ],
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
@@ -69,16 +44,16 @@ class Contest extends StatelessWidget {
                       height: 50,
                       child: Center(
                         child: Text(
-                          platformName[platformIndex],
-                          style: const TextStyle(
-                            color: Colors.black,
+                          Data.platformData[Data.platformPageIndex - 1][0],
+                          style: TextStyle(
+                            color: Data.themeColors[7],
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
-                    PlatformCard(platformIndex: platformIndex, isPlatform: false)
+                    PlatformCard(isPlatform: false)
                   ],
                 ),
               ),
@@ -103,17 +78,17 @@ class Contest extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            themeColor[platformIndex],
-                            themeColor[platformIndex].withAlpha(100),
+                            Data.themeColors[Data.platformPageIndex],
+                            Data.themeColors[Data.platformPageIndex].withAlpha(100),
                           ],
                         ),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'CONTESTS PARTICIPATED',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Data.themeColors[7],
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -124,78 +99,78 @@ class Contest extends StatelessWidget {
                       child: SizedBox(
                         height: 300,
                         child: ListView.builder(
-                          itemCount: contests[platformIndex].length,
+                          itemCount: Data.contests[Data.platformPageIndex - 1].length,
                           itemBuilder: (context, index) {
+                            final contest = Data.contests[Data.platformPageIndex - 1][index];
                             return Container(
-                                height: 140,
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(10),
-                                margin: const EdgeInsets.only(bottom: 20),
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                                  border: Border.all(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2,
-                                  ),
+                              height: 140,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.only(bottom: 20),
+                              decoration: BoxDecoration(
+                                color: Data.themeColors[7],
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                border: Border.all(
+                                  color: Data.themeColors[5],
+                                  width: 2,
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          contests[platformIndex][index][0],
-                                          style: TextStyle(
-                                            color: Theme.of(context).primaryColor,
-                                            fontSize: 24,
-                                          ),
-                                        ),
-                                        Text(
-                                          contests[platformIndex][index][1],
-                                          style: TextStyle(
-                                            color: Theme.of(context).primaryColor,
-                                            fontSize: 28,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          contests[platformIndex][index][2],
-                                          style: TextStyle(
-                                            color: Theme.of(context).primaryColor,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Text(
-                                          contests[platformIndex][index][3],
-                                          style: TextStyle(
-                                            color: getColor(contests[platformIndex][index][3][0][0]),
-                                            //color: Theme.of(context).primaryColor,
-                                            fontSize: 24,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Divider(
-                                        color: Theme.of(context).primaryColor,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'Solved ${contests[platformIndex][index][4]}/${contests[platformIndex][index][5]}',
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        contest[0], // Accessing contest name
                                         style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
+                                          color: Data.themeColors[5],
+                                          fontSize: 24,
+                                        ),
+                                      ),
+                                      Text(
+                                        contest[1], // Accessing contest date
+                                        style: TextStyle(
+                                          color: Data.themeColors[5],
+                                          fontSize: 28,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        contest[2], // Accessing contest type
+                                        style: TextStyle(
+                                          color: Data.themeColors[5],
                                           fontSize: 15,
                                         ),
                                       ),
-                                    )
-                                  ],
-                                )
+                                      Text(
+                                        contest[3],
+                                        style: TextStyle(
+                                          color: getColor(contest[3][0]), // Pass the rating graph to getColor function
+                                          fontSize: 24,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Divider(
+                                    color: Data.themeColors[5],
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Solved ${contest[4]}/${contest[5]}',
+                                      style: TextStyle(
+                                        color: Data.themeColors[5],
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             );
                           },
                         ),
@@ -208,9 +183,7 @@ class Contest extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                             child: Container(
                               height: 20,
                               width: 40,
@@ -219,18 +192,18 @@ class Contest extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    themeColor[platformIndex],
-                                    themeColor[platformIndex].withAlpha(100),
+                                    Data.themeColors[Data.platformPageIndex],
+                                    Data.themeColors[Data.platformPageIndex].withAlpha(100),
                                   ],
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),
                               ),
-                              child: const Center(
+                              child: Center(
                                 child: Text(
                                   'PREV',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.black,
+                                    color: Data.themeColors[7],
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -241,10 +214,10 @@ class Contest extends StatelessWidget {
                             height: 20,
                             width: 20,
                             decoration: BoxDecoration(
-                                color: Colors.black,
+                                color: Data.themeColors[7],
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),
                                 border: Border.all(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Data.themeColors[5],
                                   width: 2,
                                 )
                             ),
@@ -253,16 +226,14 @@ class Contest extends StatelessWidget {
                                 '2',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Data.themeColors[5],
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                             child: Container(
                               height: 20,
                               width: 40,
@@ -271,18 +242,18 @@ class Contest extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    themeColor[platformIndex],
-                                    themeColor[platformIndex].withAlpha(100),
+                                    Data.themeColors[Data.platformPageIndex],
+                                    Data.themeColors[Data.platformPageIndex].withAlpha(100),
                                   ],
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),
                               ),
-                              child: const Center(
+                              child: Center(
                                 child: Text(
                                   'NEXT',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.black,
+                                    color: Data.themeColors[7],
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

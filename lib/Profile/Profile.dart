@@ -1,26 +1,19 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'Appbar.dart';
+
+import '../Functionalities and Data/Data.dart';
+import '../Start/Appbar.dart';
+import '../Start/LoginPage.dart';
 import 'EditProfile1.dart';
-import 'LoginPage.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+   const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    Color themeColor = const Color(0xFF9DB2BF);
-    String fullName = "Arnav Gupta";
-    String username = "@aar9av";
-    List<String> platformUsername= ["@aar9av", "@aar9av", "@aar9av"];
-    String bio = "Ram Ram Bhai Sarayane,\nAaj hai hamara project banane ka doosra din,\nAur ham abhi kam kr rhe hai figma design pr...";
-    String roomsJoined = "4";
-    String roomsCreated = "2";
-
     return Scaffold(
-      appBar: const Appbar(searchBarText: 'Search User'),
+      appBar:  Appbar(searchBarText: Data.searchBarText[6]),
       body: SingleChildScrollView(
         child: SizedBox(
           height: max(MediaQuery.of(context).size.height - 90, 700),
@@ -28,7 +21,7 @@ class Profile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(
+               const SizedBox(
                 height: 30,
               ),
               SizedBox(
@@ -39,27 +32,27 @@ class Profile extends StatelessWidget {
                     Image.asset(
                       'Assets/Profile.png',
                       height: 100,
-                      color: Theme.of(context).primaryColor,
+                      color: Data.themeColors[5],
                     ),
                     Text(
-                      fullName,
+                      Data.name,
                       style: TextStyle(
-                        color: themeColor,
+                        color: Data.themeColors[0],
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      username,
+                      Data.username,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Data.themeColors[5],
                         fontSize: 18,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(
+               const SizedBox(
                 height: 20,
               ),
               Row(
@@ -69,11 +62,11 @@ class Profile extends StatelessWidget {
                     height: 80,
                     width: 80,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1F1F1F),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      color:  const Color(0xFF1F1F1F),
+                      borderRadius:  const BorderRadius.all(Radius.circular(10)),
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(context).primaryColor,
+                          color: Data.themeColors[5],
                           spreadRadius: 1,
                           blurRadius: 10,
                         ),
@@ -87,10 +80,10 @@ class Profile extends StatelessWidget {
                           height: 40,
                         ),
                         Text(
-                          platformUsername[0],
+                          Data.leetcodeUsername,
                           style: TextStyle(
                             fontSize: 12,
-                            color: Theme.of(context).primaryColor,
+                            color: Data.themeColors[5],
                           ),
                         )
                       ],
@@ -100,11 +93,11 @@ class Profile extends StatelessWidget {
                     height: 80,
                     width: 80,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1F1F1F),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      color:  const Color(0xFF1F1F1F),
+                      borderRadius:  const BorderRadius.all(Radius.circular(10)),
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(context).primaryColor,
+                          color: Data.themeColors[5],
                           spreadRadius: 0.2,
                           blurRadius: 10,
                         ),
@@ -118,10 +111,10 @@ class Profile extends StatelessWidget {
                           height: 40,
                         ),
                         Text(
-                          platformUsername[1],
+                          Data.codechefUsername,
                           style: TextStyle(
                             fontSize: 12,
-                            color: Theme.of(context).primaryColor,
+                            color: Data.themeColors[5],
                           ),
                         )
                       ],
@@ -131,11 +124,11 @@ class Profile extends StatelessWidget {
                     height: 80,
                     width: 80,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1F1F1F),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      color:  const Color(0xFF1F1F1F),
+                      borderRadius:  const BorderRadius.all(Radius.circular(10)),
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(context).primaryColor,
+                          color: Data.themeColors[5],
                           spreadRadius: 1,
                           blurRadius: 10,
                         ),
@@ -149,10 +142,10 @@ class Profile extends StatelessWidget {
                           height: 40,
                         ),
                         Text(
-                          platformUsername[2],
+                          Data.codeforcesUsername,
                           style: TextStyle(
                             fontSize: 12,
-                            color: Theme.of(context).primaryColor,
+                            color: Data.themeColors[5],
                           ),
                         )
                       ],
@@ -160,11 +153,11 @@ class Profile extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
+               const SizedBox(
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
+                padding:  const EdgeInsets.only(left: 10, right: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -172,32 +165,32 @@ class Profile extends StatelessWidget {
                       'ABOUT',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Data.themeColors[5],
                         fontSize: 20,
                       ),
                     ),
                     Divider(
-                      color: Theme.of(context).primaryColor,
+                      color: Data.themeColors[5],
                     ),
                     Text(
-                      bio,
+                      Data.bio,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Data.themeColors[5],
                         fontSize: 15,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(
+               const SizedBox(
                 height: 20,
               ),
               Container(
                 width: double.infinity,
                 height: 240,
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
+                padding:  const EdgeInsets.all(20),
+                decoration:  const BoxDecoration(
                   color: Color(0xFF1F1F1F),
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(15),
@@ -216,19 +209,19 @@ class Profile extends StatelessWidget {
                           Container(
                             height: 110,
                             width: MediaQuery.of(context).size.width/3 - 25,
-                            padding: const EdgeInsets.all(10),
+                            padding:  const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    themeColor,
-                                    themeColor.withAlpha(100),
+                                    Data.themeColors[0],
+                                    Data.themeColors[0].withAlpha(100),
                                   ]
                               ),
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              borderRadius:  const BorderRadius.all(Radius.circular(10)),
                             ),
-                            child: const Icon(
+                            child:  const Icon(
                               Icons.home,
                               color: Colors.black,
                               size: 40,
@@ -237,13 +230,13 @@ class Profile extends StatelessWidget {
                           Container(
                             height: 100,
                             width: MediaQuery.of(context).size.width/3 - 30,
-                            padding: const EdgeInsets.all(10),
+                            padding:  const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1F1F1F),
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              color:  const Color(0xFF1F1F1F),
+                              borderRadius:  const BorderRadius.all(Radius.circular(10)),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Data.themeColors[5],
                                   spreadRadius: 1,
                                   blurRadius: 10,
                                 ),
@@ -253,11 +246,11 @@ class Profile extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  roomsJoined,
+                                  Data.roomsJoined,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 28,
-                                    color: Theme.of(context).primaryColor,
+                                    color: Data.themeColors[5],
                                   ),
                                 ),
                                 Text(
@@ -265,7 +258,7 @@ class Profile extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Theme.of(context).primaryColor,
+                                    color: Data.themeColors[5],
                                   ),
                                 )
                               ],
@@ -274,13 +267,13 @@ class Profile extends StatelessWidget {
                           Container(
                             height: 100,
                             width: MediaQuery.of(context).size.width/3 - 30,
-                            padding: const EdgeInsets.all(10),
+                            padding:  const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1F1F1F),
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              color:  const Color(0xFF1F1F1F),
+                              borderRadius:  const BorderRadius.all(Radius.circular(10)),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Data.themeColors[5],
                                   spreadRadius: 1,
                                   blurRadius: 10,
                                 ),
@@ -290,11 +283,11 @@ class Profile extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  roomsCreated,
+                                  Data.roomsCreated,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 28,
-                                    color: Theme.of(context).primaryColor,
+                                    color: Data.themeColors[5],
                                   ),
                                 ),
                                 Text(
@@ -302,7 +295,7 @@ class Profile extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Theme.of(context).primaryColor,
+                                    color: Data.themeColors[5],
                                   ),
                                 )
                               ],
@@ -311,7 +304,7 @@ class Profile extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(
+                     const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -319,7 +312,7 @@ class Profile extends StatelessWidget {
                       height: 50,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: themeColor,
+                          color: Data.themeColors[0],
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -329,14 +322,14 @@ class Profile extends StatelessWidget {
                           Navigator.pop(context);
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const LoginPage())
+                            MaterialPageRoute(builder: (context) =>  LoginPage())
                           );
                         },
                         child: Text(
                           'LOGOUT',
                           style: TextStyle(
                             fontSize: 16,
-                            color: themeColor,
+                            color: Data.themeColors[0],
                           ),
                         ),
                       ),
@@ -352,12 +345,12 @@ class Profile extends StatelessWidget {
         onPressed: () {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const EditProfile1())
+              MaterialPageRoute(builder: (context) =>  const EditProfile1())
           );
         },
         elevation: 5,
-        backgroundColor: themeColor,
-        child: const Icon(
+        backgroundColor: Data.themeColors[0],
+        child:  const Icon(
           Icons.edit,
           color: Colors.black,
           size: 30,

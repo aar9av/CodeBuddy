@@ -1,9 +1,10 @@
 import 'dart:math';
 
-import 'package:code_buddy/RoomCard.dart';
 import 'package:flutter/material.dart';
 
+import '../Functionalities and Data/Data.dart';
 import 'CreateRoom.dart';
+import 'RoomCard.dart';
 
 
 class Room extends StatelessWidget {
@@ -11,16 +12,6 @@ class Room extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color themeColor = const Color(0xFF9DB2BF);
-    List<dynamic> joinedRoomData = [
-      ["@aar9av", "2 months ago", "Flutter", "1 member", "Android Development"],
-      ["@shivam", "2 month ago", "C++", "10 member", "DSA"],
-      ["@prince", "2 month ago", "Java Script", "20 member", "Web Development"],
-    ];
-    List<dynamic> createdRoomData = [
-      ["@aar9av", "2 months ago", "Flutter", "1 member", "Android Development"],
-      ["@shivam", "2 month ago", "C++", "1 member", "DSA"],
-    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -38,8 +29,8 @@ class Room extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        themeColor,
-                        themeColor.withAlpha(100),
+                        Data.themeColors[0],
+                        Data.themeColors[0].withAlpha(100),
                       ]
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -64,9 +55,9 @@ class Room extends StatelessWidget {
                       height: 280,
                       color: Colors.transparent,
                       child: ListView.builder(
-                        itemCount: joinedRoomData.length,
+                        itemCount: Data.roomData.length,
                         itemBuilder: (context, index) {
-                          return RoomCard(isCreated: false, roomData: joinedRoomData[index]);
+                          return RoomCard(isCreated: false, index: index);
                         },
                       ),
                     )
@@ -94,8 +85,8 @@ class Room extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            themeColor,
-                            themeColor.withAlpha(100),
+                            Data.themeColors[0],
+                            Data.themeColors[0].withAlpha(100),
                           ],
                         ),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -115,9 +106,13 @@ class Room extends StatelessWidget {
                       child: SizedBox(
                         height: 140,
                         child: ListView.builder(
-                          itemCount: createdRoomData.length,
+                          itemCount: Data.roomData.length,
                           itemBuilder: (context, index) {
-                            return RoomCard(isCreated: true, roomData: createdRoomData[index]);
+                            if (Data.roomData[index][0] == Data.username) {
+                              return RoomCard(isCreated: true, index: index);
+                            } else {
+                              return const SizedBox.shrink();
+                            }
                           },
                         ),
                       ),
@@ -136,11 +131,11 @@ class Room extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CreateRoom(),),
+            MaterialPageRoute(builder: (context) => CreateRoom(),),
           );
         },
         elevation: 5,
-        backgroundColor: themeColor,
+        backgroundColor: Data.themeColors[0],
         child: const Icon(
           Icons.add,
           color: Colors.black,

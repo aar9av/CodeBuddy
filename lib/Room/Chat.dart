@@ -1,4 +1,9 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
+
+import '../Functionalities and Data/Data.dart';
+
 
 class Chat extends StatelessWidget {
   final msg;
@@ -8,16 +13,9 @@ class Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color themeColor = const Color(0xFF9DB2BF);
-    bool isSender = sender == '@aar9av';
-    Color textColor = isSender ? Colors.black : themeColor;
-    Color boxColor = isSender ? themeColor : Colors.black;
-    Color borderColor = textColor;
-    String message = isSender ? msg : sender + '\n' + msg;
-    Alignment al = isSender ? Alignment.centerRight : Alignment.centerLeft;
 
     return Align(
-      alignment: al,
+      alignment: sender == Data.username ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         padding: const EdgeInsets.only(
           left: 6,
@@ -28,14 +26,14 @@ class Chat extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           border: Border.all(
-            color: borderColor,
+            color: sender == Data.username ? Data.themeColors[7] : Data.themeColors[0],
           ),
-          color: boxColor,
+          color: sender == Data.username ? Data.themeColors[0] : Data.themeColors[7],
         ),
         child: Text(
-          message,
+          sender == Data.username ? msg : sender + '\n' + msg,
           style: TextStyle(
-            color: textColor,
+            color: sender == Data.username ? Data.themeColors[7] : Data.themeColors[0],
           ),
         ),
       ),

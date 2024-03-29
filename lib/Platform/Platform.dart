@@ -1,20 +1,17 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'dart:math';
-import 'package:code_buddy/PlatformCard.dart';
 import 'package:flutter/material.dart';
 
+import '../Functionalities and Data/Data.dart';
 import 'Contest.dart';
+import 'PlatformCard.dart';
 import 'Submission.dart';
 
 class Platform extends StatefulWidget {
-  final platformIndex;
 
   // ignore: use_super_parameters
-  const Platform({
-    Key? key,
-    required this.platformIndex,
-  }) : super(key: key);
+   const Platform({Key? key}) : super(key: key);
 
 
   @override
@@ -22,10 +19,6 @@ class Platform extends StatefulWidget {
 }
 
 class _PlatformState extends State<Platform> {
-  List<String> platformIcon = ['Assets/Leetcode.png', 'Assets/Codechef.png', 'Assets/CodeForces.png'];
-  List<String> platformName = ['Leetcode', 'Codechef', 'Codeforces'];
-  List<String> platformUsername= ["@aar9av", "@aar9av", "@aar9av"];
-  List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFFEDC7B7), const Color(0xFF2196F3)];
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +30,7 @@ class _PlatformState extends State<Platform> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.only(
+                padding:  const EdgeInsets.only(
                   top: 30,
                   left: 30,
                   right: 30,
@@ -47,14 +40,14 @@ class _PlatformState extends State<Platform> {
                     Container(
                       height: 100,
                       width: 100,
-                      margin: const EdgeInsets.only(right: 30),
-                      padding: const EdgeInsets.all(24),
+                      margin:  const EdgeInsets.only(right: 30),
+                      padding:  const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(50)),
-                        color: Theme.of(context).primaryColor,
+                        borderRadius:  const BorderRadius.all(Radius.circular(50)),
+                        color: Data.themeColors[5],
                       ),
                       child: Image.asset(
-                        platformIcon[widget.platformIndex],
+                        Data.platformIcon[Data.platformPageIndex],
                       ),
                     ),
                     Column(
@@ -62,17 +55,17 @@ class _PlatformState extends State<Platform> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          platformName[widget.platformIndex],
+                          Data.platformData[Data.platformPageIndex -1][0],
                           style: TextStyle(
-                            color: themeColor[widget.platformIndex],
+                            color: Data.themeColors[Data.platformPageIndex],
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          platformUsername[widget.platformIndex],
+                          Data.platformData[Data.platformPageIndex-1][1],
                           style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Data.themeColors[5],
                             fontSize: 20,
                           ),
                         ),
@@ -82,18 +75,18 @@ class _PlatformState extends State<Platform> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(
+                margin:  const EdgeInsets.only(
                   left: 20,
                   right: 20,
                 ),
-                child: PlatformCard(platformIndex: widget.platformIndex, isPlatform: true),
+                child: PlatformCard(isPlatform: true),
               ),
               Container(
                 width: double.infinity,
                 height: 240,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF1F1F1F),
-                  borderRadius: BorderRadius.only(
+                decoration:  BoxDecoration(
+                  color: Data.themeColors[6],
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(15),
                     topLeft: Radius.circular(15),
                   ),
@@ -106,18 +99,18 @@ class _PlatformState extends State<Platform> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Submission(platformIndex: widget.platformIndex))
-                        );
+                            MaterialPageRoute(builder: (context) => const Submission()
+                        ));
                       },
                       child: Container(
                         height: 150,
                         width: 120,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1F1F1F),
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          color:  Data.themeColors[6],
+                          borderRadius:  const BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
                             BoxShadow(
-                              color: Theme.of(context).primaryColor,
+                              color: Data.themeColors[5],
                               spreadRadius: 1,
                               blurRadius: 10,
                             ),
@@ -135,7 +128,7 @@ class _PlatformState extends State<Platform> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Theme.of(context).primaryColor,
+                                color: Data.themeColors[5],
                               ),
                             )
                           ],
@@ -146,18 +139,18 @@ class _PlatformState extends State<Platform> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Contest(platformIndex: widget.platformIndex))
-                        );
+                            MaterialPageRoute(builder: (context) => const Contest()
+                        ));
                       },
                       child: Container(
                         height: 150,
                         width: 120,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1F1F1F),
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          color:  Data.themeColors[6],
+                          borderRadius:  const BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
                             BoxShadow(
-                              color: Theme.of(context).primaryColor,
+                              color: Data.themeColors[5],
                               spreadRadius: 1,
                               blurRadius: 10,
                             ),
@@ -175,7 +168,7 @@ class _PlatformState extends State<Platform> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Theme.of(context).primaryColor,
+                                color: Data.themeColors[5],
                               ),
                             )
                           ],

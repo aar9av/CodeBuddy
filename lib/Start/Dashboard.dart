@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
+import '../Functionalities and Data/Data.dart';
+import '../Platform/Platform.dart';
+import '../Room/Room.dart';
 import 'Appbar.dart';
-import 'Platform.dart';
-import 'Room.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
@@ -12,17 +14,11 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
 
-  List<String> searchText = ["Search Room", "Search Leetcode_ID", "Search Codechef_ID", "Search Codeforces_ID"];
-  int currentPage = 0;
-  List<Color> navColor = [const Color(0xFF9DB2BF), const Color(0xFFE7A41F), const Color(0xFFEDC7B7), const Color(0xFF2196F3)];
-  List<String> labelText = ['Room', 'Leetcode', 'Codechef', 'CodeForces'];
-  List<String> navIcon = ['Assets/Home.png', 'Assets/Leetcode.png', 'Assets/Codechef.png', 'Assets/CodeForces.png'];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbar(searchBarText: searchText[currentPage]),
-      body: currentPage == 0 ? const Room() : Platform(platformIndex: currentPage.toInt() - 1),
+      appBar: Appbar(searchBarText: Data.searchBarText[Data.platformPageIndex]),
+      body: Data.platformPageIndex == 0 ? const Room() : const Platform(),
       bottomNavigationBar: Container(
         height: 80,
         width: double.infinity,
@@ -33,11 +29,11 @@ class _DashBoardState extends State<DashBoard> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
-              color: navColor[currentPage],
+              color: Data.themeColors[Data.platformPageIndex],
             ),
             boxShadow: [
               BoxShadow(
-                color: navColor[currentPage],
+                color: Data.themeColors[Data.platformPageIndex],
                 spreadRadius: 1,
                 blurRadius: 5,
               ),
@@ -46,24 +42,24 @@ class _DashBoardState extends State<DashBoard> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: BottomNavigationBar(
-              currentIndex: currentPage,
+              currentIndex: Data.platformPageIndex,
               onTap: (int newPage) {
                 setState(() {
-                  currentPage = newPage;
+                  Data.platformPageIndex = newPage;
                 });
               },
               items: List.generate(
                 4,
                 (index) => BottomNavigationBarItem(
                   icon: Image.asset(
-                    navIcon[index],
+                    Data.platformIcon[index],
                     height: 30,
-                    color: index == currentPage ? null : Theme.of(context).primaryColor,
+                    color: index == Data.platformPageIndex ? null : Data.themeColors[5],
                   ),
-                  label: labelText[index],
+                  label: '',
                 ),
               ),
-              selectedItemColor: navColor[currentPage],
+              selectedItemColor: Data.themeColors[Data.platformPageIndex],
               selectedFontSize: 0,
             ),
           ),

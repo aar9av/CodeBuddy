@@ -1,8 +1,15 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: depend_on_referenced_packages
 
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import '../Functionalities and Data/Data.dart';
 import 'LoginPage.dart';
 
-void main() {
+
+Future<void> main() async {
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp();
   runApp(const CodeBuddy());
 }
 
@@ -11,25 +18,25 @@ class CodeBuddy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: const ColorScheme.light().copyWith(
-          background: const Color(0xFF000000),
-          primary: const Color(0xFF818181),
-          secondary: const Color(0xFF141414),
-          outline: const Color(0xFF818181),
+          background: Data.themeColors[7],
+          outline: Data.themeColors[5],
+          primary: Data.themeColors[5]
         ),
-        appBarTheme: const AppBarTheme(
-          color: Color(0xFF1F1F1F),
-          shape: RoundedRectangleBorder(
+        appBarTheme: AppBarTheme(
+          color: Data.themeColors[6],
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15),
             ),
           ),
         ),
       ),
-      home: const LoginPage(),
+      home: LoginPage(),
     );
   }
 }

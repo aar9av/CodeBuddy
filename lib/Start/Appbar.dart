@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import 'Profile.dart';
+import '../Functionalities and Data/Data.dart';
+import '../Profile/Profile.dart';
 
 class Appbar extends StatelessWidget implements PreferredSizeWidget{
   final searchBarText;
@@ -37,11 +38,11 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
           decoration: InputDecoration(
             hintText: searchBarText,
             hintStyle: TextStyle(
-              color: Theme.of(context).primaryColor,
+              color: Data.themeColors[5],
             ),
             prefixIcon: Icon(
               Icons.search,
-              color: Theme.of(context).primaryColor,
+              color: Data.themeColors[5],
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
@@ -49,7 +50,7 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
           ),
           style: TextStyle(
-            color: Theme.of(context).primaryColor,
+            color: Data.themeColors[5],
           ),
         ),
       ),

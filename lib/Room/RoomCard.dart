@@ -2,39 +2,39 @@
 
 import 'package:flutter/material.dart';
 
+import '../Functionalities and Data/Data.dart';
 import 'RoomChat.dart';
 
 class RoomCard extends StatelessWidget {
   final isCreated;
-  final roomData;
+  final index;
 
-  const RoomCard({
+   const RoomCard({
     super.key,
     required this.isCreated,
-    required this.roomData,
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
-    Color borderColor = isCreated ? Theme.of(context).primaryColor : Colors.black;
 
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const RoomChat(),),
+          MaterialPageRoute(builder: (context) => RoomChat(index: index),),
         );
       },
       child: Container(
           height: 130,
           width: double.infinity,
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.all(5),
+          padding:  const EdgeInsets.all(10),
+          margin:  const EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: Colors.black,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius:  const BorderRadius.all(Radius.circular(10)),
             border: Border.all(
-              color: borderColor,
+              color: isCreated ? Data.themeColors[5] : Data.themeColors[7],
               width: 2,
             ),
           ),
@@ -50,21 +50,21 @@ class RoomCard extends StatelessWidget {
                       Image.asset(
                         'Assets/Profile.png',
                         height: 20,
-                        color: Theme.of(context).primaryColor,
+                        color: Data.themeColors[5],
                       ),
                       Text(
-                        '  ${roomData[0]}',
+                        '  ${Data.roomData[index][0]}',
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: Data.themeColors[5],
                           fontSize: 18,
                         ),
                       ),
                     ],
                   ),
                   Text(
-                    roomData[1],
+                    Data.roomData[index][4],
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Data.themeColors[5],
                       fontSize: 14,
                     ),
                   )
@@ -73,35 +73,35 @@ class RoomCard extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  roomData[2],
+                  Data.roomData[index][1],
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Data.themeColors[5],
                     fontSize: 24,
                   ),
                 ),
               ),
               Divider(
-                color: Theme.of(context).primaryColor,
+                color: Data.themeColors[5],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    roomData[3],
+                    '${Data.roomData[index][5].length} members',
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Data.themeColors[5],
                       fontSize: 15,
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(4),
+                    padding:  const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      color: Data.themeColors[5],
+                      borderRadius:  const BorderRadius.all(Radius.circular(10)),
                     ),
                     child: Text(
-                      roomData[4],
-                      style: const TextStyle(
+                      Data.roomData[index][2],
+                      style:  const TextStyle(
                         color: Colors.black,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,

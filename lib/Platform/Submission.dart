@@ -1,67 +1,19 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'dart:math';
 
-import 'package:code_buddy/PlatformCard.dart';
 import 'package:flutter/material.dart';
 
-import 'Appbar.dart';
+import '../Functionalities and Data/Data.dart';
+import '../Start/Appbar.dart';
+import 'PlatformCard.dart';
 
 class Submission extends StatelessWidget {
-  final platformIndex;
-
-  // ignore: use_super_parameters
-  const Submission({
-    Key? key,
-    required this.platformIndex,
-  }) : super(key: key);
+  const Submission({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<String> searchText = ["Search Leetcode_ID", "Search Codechef_ID", "Search Codeforces_ID"];
-    List<Color> themeColor = [const Color(0xFFE7A41F), const Color(0xFFEDC7B7), const Color(0xFF2196F3)];
-    List<String> platformName = ['LEETCODE', 'CODECHEF', 'CODEFORCES'];
-    List<dynamic> submissions = [
-      [
-        ["N Queen", "2 Days ago"],
-        ["Rat in a Maze", "2 Days ago"],
-        ["Sudoku Solver", "2 Days ago"],
-        ["Tower of Hanoi", "2 Days ago"],
-        ["Word Break", "2 Days ago"],
-        ["Sort Stack", "2 Days ago"],
-        ["Palindrome Partitioning", "2 Days ago"],
-        ["Number of Islands", "2 Days ago"],
-        ["Flood Fill", "2 Days ago"],
-        ["Word Search", "2 Days ago"],
-      ],
-      [
-        ["N Queen", "2 Days ago"],
-        ["Rat in a Maze", "2 Days ago"],
-        ["Sudoku Solver", "2 Days ago"],
-        ["Tower of Hanoi", "2 Days ago"],
-        ["Word Break", "2 Days ago"],
-        ["Sort Stack", "2 Days ago"],
-        ["Palindrome Partitioning", "2 Days ago"],
-        ["Number of Islands", "2 Days ago"],
-      ],
-      [
-        ["Flood Fill", "2 Days ago"],
-        ["Word Search", "2 Days ago"],
-        ["N Queen", "2 Days ago"],
-        ["Rat in a Maze", "2 Days ago"],
-        ["Sudoku Solver", "2 Days ago"],
-        ["Tower of Hanoi", "2 Days ago"],
-        ["Word Break", "2 Days ago"],
-        ["Sort Stack", "2 Days ago"],
-        ["Palindrome Partitioning", "2 Days ago"],
-        ["Number of Islands", "2 Days ago"],
-        ["Flood Fill", "2 Days ago"],
-        ["Word Search", "2 Days ago"],
-      ],
-    ];
-    
     return Scaffold(
-      appBar: Appbar(searchBarText: searchText[platformIndex]),
+      appBar: Appbar(searchBarText: Data.searchBarText[4]),
       body: SingleChildScrollView(
         child: SizedBox(
           height: max(MediaQuery.of(context).size.height - 190, 700),
@@ -75,12 +27,12 @@ class Submission extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        themeColor[platformIndex],
-                        themeColor[platformIndex].withAlpha(100),
-                      ]
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Data.themeColors[Data.platformPageIndex],
+                      Data.themeColors[Data.platformPageIndex].withAlpha(100),
+                    ],
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
@@ -91,7 +43,7 @@ class Submission extends StatelessWidget {
                       height: 50,
                       child: Center(
                         child: Text(
-                          platformName[platformIndex],
+                          Data.platformData[Data.platformPageIndex - 1][0], // Accessing platform name
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 36,
@@ -100,7 +52,7 @@ class Submission extends StatelessWidget {
                         ),
                       ),
                     ),
-                    PlatformCard(platformIndex: platformIndex, isPlatform: false)
+                    const PlatformCard(isPlatform: false)
                   ],
                 ),
               ),
@@ -125,8 +77,8 @@ class Submission extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            themeColor[platformIndex],
-                            themeColor[platformIndex].withAlpha(100),
+                            Data.themeColors[Data.platformPageIndex],
+                            Data.themeColors[Data.platformPageIndex].withAlpha(100),
                           ],
                         ),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -146,24 +98,25 @@ class Submission extends StatelessWidget {
                       child: SizedBox(
                         height: 300,
                         child: ListView.builder(
-                          itemCount: submissions[platformIndex].length,
+                          itemCount: Data.submissions[Data.platformPageIndex - 1].length,
                           itemBuilder: (context, index) {
+                            final submission = Data.submissions[Data.platformPageIndex - 1][index];
                             return SizedBox(
                               height: 30,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    submissions[platformIndex][index][0],
+                                    submission[0], // Accessing submission name
                                     style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Data.themeColors[5],
                                       fontSize: 18,
                                     ),
                                   ),
                                   Text(
-                                    submissions[platformIndex][index][1],
+                                    submission[1], // Accessing submission timestamp
                                     style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Data.themeColors[5],
                                       fontSize: 15,
                                     ),
                                   ),
@@ -181,9 +134,7 @@ class Submission extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                             child: Container(
                               height: 20,
                               width: 40,
@@ -192,8 +143,8 @@ class Submission extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    themeColor[platformIndex],
-                                    themeColor[platformIndex].withAlpha(100),
+                                    Data.themeColors[Data.platformPageIndex],
+                                    Data.themeColors[Data.platformPageIndex].withAlpha(100),
                                   ],
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -214,28 +165,25 @@ class Submission extends StatelessWidget {
                             height: 20,
                             width: 20,
                             decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: const BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 2,
-                              )
-                            ),
+                                color: Colors.black,
+                                borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                border: Border.all(
+                                  color: Data.themeColors[5],
+                                  width: 2,
+                                )),
                             child: Center(
                               child: Text(
                                 '2',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Data.themeColors[5],
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                             child: Container(
                               height: 20,
                               width: 40,
@@ -244,8 +192,8 @@ class Submission extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    themeColor[platformIndex],
-                                    themeColor[platformIndex].withAlpha(100),
+                                    Data.themeColors[Data.platformPageIndex],
+                                    Data.themeColors[Data.platformPageIndex].withAlpha(100),
                                   ],
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5)),
