@@ -6,12 +6,10 @@ import '../Functionalities and Data/Data.dart';
 import 'RoomChat.dart';
 
 class RoomCard extends StatelessWidget {
-  final isCreated;
   final index;
 
    const RoomCard({
     super.key,
-    required this.isCreated,
     required this.index,
   });
 
@@ -34,7 +32,6 @@ class RoomCard extends StatelessWidget {
             color: Colors.black,
             borderRadius:  const BorderRadius.all(Radius.circular(10)),
             border: Border.all(
-              color: isCreated ? Data.themeColors[5] : Data.themeColors[7],
               width: 2,
             ),
           ),

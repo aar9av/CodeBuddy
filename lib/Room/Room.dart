@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:code_buddy/Functionalities%20and%20Data/Functions.dart';
 import 'package:flutter/material.dart';
 
 import '../Functionalities and Data/Data.dart';
@@ -7,21 +8,27 @@ import 'CreateRoom.dart';
 import 'RoomCard.dart';
 
 
-class Room extends StatelessWidget {
+class Room extends StatefulWidget {
   const Room({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<Room> createState() => _RoomState();
+}
 
+class _RoomState extends State<Room> {
+  bool isCreated = false;
+  List<int> roomCreated = Functions.getCreatedRoomData();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
-          height: max(MediaQuery.of(context).size.height - 620, 620),
+          height: MediaQuery.of(context).size.height - 170,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: 320,
                 width: double.infinity,
                 margin: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -38,12 +45,12 @@ class Room extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       height: 40,
                       child: Center(
                         child: Text(
-                          'ROOMS JOINED',
-                          style: TextStyle(
+                          isCreated ? 'ROOMS CREATED' : 'ROOMS JOINED',
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -52,12 +59,12 @@ class Room extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 280,
+                      height: min(MediaQuery.of(context).size.height - 330, (isCreated ? roomCreated.length : Data.roomData.length) * 140),
                       color: Colors.transparent,
                       child: ListView.builder(
-                        itemCount: Data.roomData.length,
+                        itemCount: isCreated ? roomCreated.length : Data.roomData.length,
                         itemBuilder: (context, index) {
-                          return RoomCard(isCreated: false, index: index);
+                            return isCreated ? RoomCard(index: roomCreated[index]) : RoomCard(index: index);
                         },
                       ),
                     )
@@ -66,7 +73,7 @@ class Room extends StatelessWidget {
               ),
               Container(
                 width: double.infinity,
-                height: 260,
+                height: 80,
                 padding: const EdgeInsets.all(20),
                 decoration: const BoxDecoration(
                   color: Color(0xFF1F1F1F),
@@ -75,52 +82,36 @@ class Room extends StatelessWidget {
                     topLeft: Radius.circular(15),
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Data.themeColors[0],
-                            Data.themeColors[0].withAlpha(100),
-                          ],
-                        ),
-                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isCreated = !(isCreated);
+                    });
+                  },
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Data.themeColors[0],
+                          Data.themeColors[0].withAlpha(100),
+                        ],
                       ),
-                      child: const Center(
-                        child: Text(
-                          'RECENT CREATED',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
                     ),
-                    SingleChildScrollView(
-                      child: SizedBox(
-                        height: 140,
-                        child: ListView.builder(
-                          itemCount: Data.roomData.length,
-                          itemBuilder: (context, index) {
-                            if (Data.roomData[index][0] == Data.username) {
-                              return RoomCard(isCreated: true, index: index);
-                            } else {
-                              return const SizedBox.shrink();
-                            }
-                          },
+                    child: Center(
+                      child: Text(
+                        isCreated ? 'ROOM JOINED' : 'ROOM CREATED',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 0,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
@@ -131,7 +122,7 @@ class Room extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CreateRoom(),),
+            MaterialPageRoute(builder: (context) => const CreateRoom(),),
           );
         },
         elevation: 5,

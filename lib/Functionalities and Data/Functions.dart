@@ -37,4 +37,14 @@ class Functions {
     ]);
   }
 
+  static List<int> getCreatedRoomData() {
+    List<int> roomCreated = [];
+    for(int i=0; i<Data.roomData.length; ++i) {
+      if(Data.roomData[i][0] == Data.username) {
+        roomCreated.add(i);
+      }
+    }
+    return roomCreated;
+  }
+
 }
