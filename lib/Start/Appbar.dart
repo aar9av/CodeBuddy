@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
-
 import '../Functionalities and Data/Data.dart';
 import '../Profile/Profile.dart';
 
