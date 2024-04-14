@@ -1,15 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Functionalities and Data/Functions.dart';
 import '../Start/Appbar.dart';
-import 'Profile.dart';
+import '../Start/Dashboard.dart';
 
 class EditProfile2 extends StatefulWidget {
   final String? fullName;
   final String? username;
-  final String? bio;
+  final String? email;
+  final String? pswd;
+  final bool? isPswd;
 
-  const EditProfile2({super.key, this.fullName, this.username, this.bio});
+  const EditProfile2({super.key, this.fullName, this.username, this.pswd, this.email, this.isPswd});
 
   @override
   State<EditProfile2> createState() => _EditProfile2State();
@@ -19,6 +23,8 @@ class _EditProfile2State extends State<EditProfile2> {
   TextEditingController leetcodeUserName = TextEditingController();
   TextEditingController codechefUserName = TextEditingController();
   TextEditingController codeforcesUserName = TextEditingController();
+  TextEditingController bio = TextEditingController();
+  bool loading = false;
 
   @override
   void initState() {
@@ -31,6 +37,7 @@ class _EditProfile2State extends State<EditProfile2> {
       leetcodeUserName.text = Data.leetcodeUsername;
       codechefUserName.text = Data.codechefUsername;
       codeforcesUserName.text = Data.codeforcesUsername;
+      bio.text = Data.bio;
     });
   }
 
@@ -67,7 +74,7 @@ class _EditProfile2State extends State<EditProfile2> {
                   ),
                 ),
                 Container(
-                  height: 500,
+                  height: 550,
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     color: Color(0xFF1F1F1F),
@@ -231,6 +238,46 @@ class _EditProfile2State extends State<EditProfile2> {
                           ),
                         ),
                       ),
+                      Divider(color: Data.themeColors[5],),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Edit Bio :',
+                          style: TextStyle(
+                            color: Data.themeColors[0],
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 90,
+                        color: Data.themeColors[7],
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          controller: bio,
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            hintText: bio.text.isEmpty ? 'Add Bio ...' : null,
+                            hintStyle: TextStyle(
+                              color: Data.themeColors[0],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Data.themeColors[0]),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Data.themeColors[0]),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                          ),
+                          style: TextStyle(
+                            color: Data.themeColors[0],
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -264,13 +311,47 @@ class _EditProfile2State extends State<EditProfile2> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              Functions.updateProfile(widget.fullName!, widget.username!, widget.bio!, leetcodeUserName.text, codechefUserName.text, codeforcesUserName.text);
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Profile()));
+                            onTap: () async {
+                              setState(() {
+                                loading = true;
+                              });
+                              Future<bool> chk = Functions.updateUser(
+                                  widget.username.toString(),
+                                  widget.email.toString(),
+                                  widget.fullName.toString(),
+                                  leetcodeUserName.text,
+                                  codechefUserName.text,
+                                  codeforcesUserName.text,
+                                  bio.text,
+                                  widget.isPswd,
+                                  widget.pswd.toString(),
+                              );
+                              if(await chk) {
+                                setState(() {
+                                  loading = false;
+                                });
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const DashBoard(),)
+                                );
+                              } else {
+                                buildAlertBox('Unable to update Data !!!');
+                              }
                             },
-                            child: Container(
+                            child: loading ?
+                            SizedBox(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width / 2 - 40,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: Data.themeColors[0],
+                                ),
+                              ),
+                            ) :
+                            Container(
                               height: 40,
                               width: MediaQuery.of(context).size.width / 2 - 40,
                               decoration: BoxDecoration(
@@ -309,6 +390,30 @@ class _EditProfile2State extends State<EditProfile2> {
           ),
         ),
       ),
+    );
+  }
+
+  Future buildAlertBox(String s) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Data.themeColors[4],
+          title: const Text('ALERT'),
+          content: Text(s),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  loading = false;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

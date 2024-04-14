@@ -25,7 +25,7 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget{
       leading: IconButton(
         onPressed: () {},
         icon: Image.asset(
-          'Assets/Submissions.png',
+          'Assets/Logo.png',
         ),
       ),
       centerTitle: true,

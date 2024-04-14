@@ -1,15 +1,12 @@
 // ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import '../Functionalities and Data/Data.dart';
-import 'LoginPage.dart';
-
+import 'Dashboard.dart';
+import 'HomePage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+  await dotenv.load(fileName: "lib/Functionalities and Data/.env");
   runApp(const CodeBuddy());
 }
 
@@ -21,6 +18,7 @@ class CodeBuddy extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'CodeBuddy',
       theme: ThemeData(
         colorScheme: const ColorScheme.light().copyWith(
           background: Data.themeColors[7],
@@ -36,7 +34,7 @@ class CodeBuddy extends StatelessWidget {
           ),
         ),
       ),
-      home: LoginPage(),
+      home: Data.currentUser == null ? const HomePage() : const DashBoard(),
     );
   }
 }

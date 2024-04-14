@@ -3,14 +3,13 @@
 import 'package:flutter/material.dart';
 
 import '../Functionalities and Data/Data.dart';
+import '../Functionalities and Data/Functions.dart';
 
 class PlatformCard extends StatelessWidget {
-  final platformPageIndex;
   final isPlatform;
 
    const PlatformCard({
     super.key,
-     required this.platformPageIndex,
     required this.isPlatform,
   });
 
@@ -26,8 +25,8 @@ class PlatformCard extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                (isPlatform ? Data.themeColors[platformPageIndex] : Data.themeColors[7]),
-                (isPlatform ? Data.themeColors[platformPageIndex] : Data.themeColors[7]).withAlpha(100),
+                (isPlatform ? Data.themeColors[Data.platformPageIndex] : Data.themeColors[7]),
+                (isPlatform ? Data.themeColors[Data.platformPageIndex] : Data.themeColors[7]).withAlpha(100),
               ]
           ),
           borderRadius:  const BorderRadius.all(Radius.circular(10)),
@@ -39,16 +38,16 @@ class PlatformCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Global Rank',
+                  'Contest Rating',
                   style: TextStyle(
-                    color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
+                    color: Data.themeColors[4],
                     fontSize: 24,
                   ),
                 ),
                 Text(
-                  Data.platformData[platformPageIndex - 1][2],
+                  Data.platformData[Data.platformPageIndex - 1][2],
                   style: TextStyle(
-                    color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
+                    color: Data.themeColors[4],
                     fontSize: 28,
                   ),
                 )
@@ -58,34 +57,52 @@ class PlatformCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${Data.platformData[platformPageIndex - 1][3]} Contests Participated',
+                  '${Data.platformData[Data.platformPageIndex - 1][3]} Contests',
                   style: TextStyle(
-                    color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
+                    color: Data.themeColors[4],
                     fontSize: 15,
                   ),
                 ),
-                Text(
-                  Data.platformData[platformPageIndex - 1][4],
-                  style: TextStyle(
-                    color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
-                    fontSize: 24,
+                Container(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  height: Data.platformData[Data.platformPageIndex - 1][4] == '' ? 0 : 24,
+                  decoration: BoxDecoration(
+                    color: Data.themeColors[4],
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Text(
+                    Data.platformData[Data.platformPageIndex - 1][4],
+                    style: TextStyle(
+                      color: Functions.getBadgeColor(Data.platformData[Data.platformPageIndex - 1][4]),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 )
               ],
             ),
             Divider(
-              color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
+              color: Data.themeColors[4],
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '${Data.platformData[platformPageIndex - 1][5]} Questions Solved',
-                style: TextStyle(
-                  color: isPlatform ? Data.themeColors[4] : Data.themeColors[5],
-                  fontSize: 15,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${Data.platformData[Data.platformPageIndex - 1][5]} Questions Solved',
+                  style: TextStyle(
+                    color: Data.themeColors[4],
+                    fontSize: 15,
+                  ),
                 ),
-              ),
-            )
+                Text(
+                  Data.platformData[Data.platformPageIndex - 1][6],
+                  style: TextStyle(
+                    color: Data.themeColors[4],
+                    fontSize: 24,
+                  ),
+                )
+              ],
+            ),
           ],
         )
     );

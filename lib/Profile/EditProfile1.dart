@@ -1,7 +1,7 @@
-import 'package:code_buddy/Start/Appbar.dart';
 import 'package:flutter/material.dart';
-
 import '../Functionalities and Data/Data.dart';
+import '../Functionalities and Data/Functions.dart';
+import '../Start/Appbar.dart';
 import 'EditProfile2.dart';
 
 class EditProfile1 extends StatefulWidget {
@@ -15,7 +15,14 @@ class _EditProfile1State extends State<EditProfile1> {
   TextEditingController fullName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController userName = TextEditingController();
-  TextEditingController bio = TextEditingController();
+  TextEditingController oldPswd = TextEditingController();
+  TextEditingController newPswd = TextEditingController();
+  TextEditingController conPawd = TextEditingController();
+  bool isObsecureOldPawd = true;
+  bool isObsecureNewPawd = true;
+  bool isObsecureConPawd = true;
+  bool isPswd = false;
+  bool loading = false;
 
   @override
   void initState() {
@@ -28,7 +35,6 @@ class _EditProfile1State extends State<EditProfile1> {
       fullName.text = Data.name;
       userName.text = Data.username;
       email.text = Data.email;
-      bio.text = Data.bio;
     });
   }
 
@@ -65,7 +71,7 @@ class _EditProfile1State extends State<EditProfile1> {
                   ),
                 ),
                 Container(
-                  height: 500,
+                  height: 550,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Data.themeColors[6],
@@ -77,8 +83,16 @@ class _EditProfile1State extends State<EditProfile1> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const SizedBox(
-                        height: 25,
+                      const SizedBox(height: 20,),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Edit Basic Info :',
+                          style: TextStyle(
+                            color: Data.themeColors[0],
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
                       Container(
                         height: 40,
@@ -114,37 +128,9 @@ class _EditProfile1State extends State<EditProfile1> {
                         child: TextField(
                           keyboardType: TextInputType.text,
                           controller: userName,
-                          decoration: InputDecoration(
-                            hintText: userName.text.isEmpty ? 'Enter Username' : null,
-                            hintStyle: TextStyle(
-                              color: Data.themeColors[0],
-                              fontSize: 18,
-                              fontWeight: FontWeight.w300,
-                            ),
-                            border: InputBorder.none,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          ),
-                          style: TextStyle(
-                            color: Data.themeColors[0],
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 40,
-                        color: Data.themeColors[7],
-                        child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: email,
                           readOnly: true,
                           decoration: InputDecoration(
-                            hintText: email.text.isEmpty ? 'Enter Email Address' : null,
+                            hintText: userName.text.isEmpty ? 'Enter Username' : null,
                             hintStyle: TextStyle(
                               color: Data.themeColors[5],
                               fontSize: 18,
@@ -166,14 +152,13 @@ class _EditProfile1State extends State<EditProfile1> {
                         ),
                       ),
                       Container(
-                        height: 90,
+                        height: 40,
                         color: Data.themeColors[7],
                         child: TextField(
-                          keyboardType: TextInputType.multiline,
-                          controller: bio,
-                          maxLines: 4,
+                          keyboardType: TextInputType.emailAddress,
+                          controller: email,
                           decoration: InputDecoration(
-                            hintText: bio.text.isEmpty ? 'Add Bio ...' : null,
+                            hintText: email.text.isEmpty ? 'Enter Email Address' : null,
                             hintStyle: TextStyle(
                               color: Data.themeColors[0],
                               fontSize: 18,
@@ -187,6 +172,137 @@ class _EditProfile1State extends State<EditProfile1> {
                               borderSide: BorderSide(color: Data.themeColors[0]),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                          ),
+                          style: TextStyle(
+                            color: Data.themeColors[0],
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      Divider(color: Data.themeColors[5],),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Change Password :',
+                          style: TextStyle(
+                            color: Data.themeColors[0],
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 40,
+                        color: Data.themeColors[7],
+                        child: TextField(
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: isObsecureOldPawd,
+                          controller: oldPswd,
+                          decoration: InputDecoration(
+                            hintText: 'Enter Old Password',
+                            hintStyle: TextStyle(
+                              color: Data.themeColors[0],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Data.themeColors[0]),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Data.themeColors[0]),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isObsecureOldPawd = !isObsecureOldPawd;
+                                });
+                              },
+                              icon: Icon(
+                                isObsecureOldPawd ? Icons.visibility : Icons.visibility_off,
+                                color: Data.themeColors[0],
+                              ),
+                            ),
+                          ),
+                          style: TextStyle(
+                            color: Data.themeColors[0],
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 40,
+                        color: Data.themeColors[7],
+                        child: TextField(
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: isObsecureNewPawd,
+                          controller: newPswd,
+                          decoration: InputDecoration(
+                            hintText: 'Create New Password',
+                            hintStyle: TextStyle(
+                              color: Data.themeColors[0],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Data.themeColors[0]),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Data.themeColors[0]),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isObsecureNewPawd = !isObsecureNewPawd;
+                                });
+                              },
+                              icon: Icon(
+                                isObsecureNewPawd ? Icons.visibility : Icons.visibility_off,
+                                color: Data.themeColors[0],
+                              ),
+                            ),
+                          ),
+                          style: TextStyle(
+                            color: Data.themeColors[0],
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 40,
+                        color: Data.themeColors[7],
+                        child: TextField(
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: isObsecureConPawd,
+                          controller: conPawd,
+                          decoration: InputDecoration(
+                            hintText: 'Confirm Password',
+                            hintStyle: TextStyle(
+                              color: Data.themeColors[0],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Data.themeColors[0]),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Data.themeColors[0]),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isObsecureConPawd = !isObsecureConPawd;
+                                });
+                              },
+                              icon: Icon(
+                                isObsecureConPawd ? Icons.visibility : Icons.visibility_off,
+                                color: Data.themeColors[0],
+                              ),
+                            ),
                           ),
                           style: TextStyle(
                             color: Data.themeColors[0],
@@ -227,14 +343,60 @@ class _EditProfile1State extends State<EditProfile1> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
+                            onTap: () async {
+                              setState(() {
+                                loading = true;
+                              });
+                              if(fullName.text.isEmpty) {
+                                buildAlertBox('Invalid Name !!!');
+                              } else if (userName.text.isEmpty) {
+                                buildAlertBox('Invalid Username !!!');
+                              } else if (await Functions.findUser('####', email.text) && email.text != Data.email) {
+                                buildAlertBox('Email already exist !!!');
+                              } else if(oldPswd.text.isNotEmpty) {
+                                if(await Functions.auth(Data.username, oldPswd.text)) {
+                                  if(newPswd.text.isEmpty) {
+                                    buildAlertBox('Password can not be empty !!!');
+                                  } else if (newPswd.text != conPawd.text) {
+                                    buildAlertBox('Password did not match !!!');
+                                  } else {
+                                    setState(() {
+                                      isPswd = true;
+                                      loading = false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditProfile2(fullName: fullName.text, username: userName.text, email: email.text, pswd: newPswd.text, isPswd: isPswd)
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  buildAlertBox('Invalid Password !!!');
+                                }
+                              } else {
+                                setState(() {
+                                  loading = false;
+                                });
+                                Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => EditProfile2(fullName: fullName.text, username: userName.text, bio: bio.text),
+                                  MaterialPageRoute(
+                                      builder: (context) => EditProfile2(fullName: fullName.text, username: userName.text, email: email.text, pswd: newPswd.text, isPswd: isPswd)
                                   ),
-                              );
+                                );
+                              }
                             },
-                            child: Container(
+                            child: loading ?
+                            SizedBox(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width / 2 - 40,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: Data.themeColors[0],
+                                ),
+                              ),
+                            ) :
+                            Container(
                               height: 40,
                               width: MediaQuery.of(context).size.width / 2 - 40,
                               decoration: BoxDecoration(
@@ -270,6 +432,30 @@ class _EditProfile1State extends State<EditProfile1> {
           ),
         ),
       ),
+    );
+  }
+
+  Future buildAlertBox(String s) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Data.themeColors[4],
+          title: const Text('ALERT'),
+          content: Text(s),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  loading = false;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../Functionalities and Data/Data.dart';
-import '../Platform/Platform.dart';
+import '../Platform/Codechef.dart';
+import '../Platform/Codeforces.dart';
+import '../Platform/Leetcode.dart';
 import '../Room/Room.dart';
 import 'Appbar.dart';
 
@@ -13,13 +14,12 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  int platformPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbar(searchBarText: Data.searchBarText[platformPageIndex]),
-      body: platformPageIndex == 0 ? const Room() : Platform(platformPageIndex: platformPageIndex),
+      appBar: Appbar(searchBarText: Data.searchBarText[Data.platformPageIndex]),
+      body: getPage(),
       bottomNavigationBar: Container(
         height: 80,
         width: double.infinity,
@@ -30,11 +30,11 @@ class _DashBoardState extends State<DashBoard> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
-              color: Data.themeColors[platformPageIndex],
+              color: Data.themeColors[Data.platformPageIndex],
             ),
             boxShadow: [
               BoxShadow(
-                color: Data.themeColors[platformPageIndex],
+                color: Data.themeColors[Data.platformPageIndex],
                 spreadRadius: 1,
                 blurRadius: 5,
               ),
@@ -43,10 +43,10 @@ class _DashBoardState extends State<DashBoard> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: BottomNavigationBar(
-              currentIndex: platformPageIndex,
+              currentIndex: Data.platformPageIndex,
               onTap: (int newPage) {
                 setState(() {
-                  platformPageIndex = newPage;
+                  Data.platformPageIndex = newPage;
                 });
               },
               items: List.generate(
@@ -55,17 +55,32 @@ class _DashBoardState extends State<DashBoard> {
                   icon: Image.asset(
                     Data.platformIcon[index],
                     height: 30,
-                    color: index == platformPageIndex ? null : Data.themeColors[5],
+                    color: index == Data.platformPageIndex ? null : Data.themeColors[5],
                   ),
                   label: '',
                 ),
               ),
-              selectedItemColor: Data.themeColors[platformPageIndex],
+              selectedItemColor: Data.themeColors[Data.platformPageIndex],
               selectedFontSize: 0,
             ),
           ),
         ),
       )
     );
+  }
+
+  getPage() {
+    if(Data.platformPageIndex == 0) {
+      return const Room();
+    }
+    if(Data.platformPageIndex == 1) {
+      return const Leetcode();
+    }
+    if(Data.platformPageIndex == 2) {
+      return const Codechef();
+    }
+    if(Data.platformPageIndex == 3) {
+      return const Codeforces();
+    }
   }
 }

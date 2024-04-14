@@ -1,16 +1,16 @@
 
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import '../Functionalities and Data/Data.dart';
 import '../Start/Appbar.dart';
 import 'PlatformCard.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Submission extends StatelessWidget {
-  final platformPageIndex;
   
-  const Submission({super.key, this.platformPageIndex});
+  const Submission({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +32,8 @@ class Submission extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Data.themeColors[platformPageIndex],
-                      Data.themeColors[platformPageIndex].withAlpha(100),
+                      Data.themeColors[Data.platformPageIndex],
+                      Data.themeColors[Data.platformPageIndex].withAlpha(100),
                     ],
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -45,7 +45,7 @@ class Submission extends StatelessWidget {
                       height: 50,
                       child: Center(
                         child: Text(
-                          Data.platformData[platformPageIndex - 1][0], // Accessing platform name
+                          Data.platformData[Data.platformPageIndex - 1][0],
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 36,
@@ -54,7 +54,7 @@ class Submission extends StatelessWidget {
                         ),
                       ),
                     ),
-                    PlatformCard(platformPageIndex: platformPageIndex, isPlatform: false)
+                    const PlatformCard(isPlatform: false)
                   ],
                 ),
               ),
@@ -79,8 +79,8 @@ class Submission extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Data.themeColors[platformPageIndex],
-                            Data.themeColors[platformPageIndex].withAlpha(100),
+                            Data.themeColors[Data.platformPageIndex],
+                            Data.themeColors[Data.platformPageIndex].withAlpha(100),
                           ],
                         ),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -98,121 +98,49 @@ class Submission extends StatelessWidget {
                     ),
                     SingleChildScrollView(
                       child: SizedBox(
-                        height: 300,
+                        height: 360,
                         child: ListView.builder(
-                          itemCount: Data.submissions[platformPageIndex - 1].length,
+                          itemCount: Data.submissions[Data.platformPageIndex - 1].length,
                           itemBuilder: (context, index) {
-                            final submission = Data.submissions[platformPageIndex - 1][index];
-                            return SizedBox(
-                              height: 30,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    submission[0], // Accessing submission name
-                                    style: TextStyle(
-                                      color: Data.themeColors[5],
-                                      fontSize: 18,
+                            final submission = Data.submissions[Data.platformPageIndex - 1][index];
+                            return Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async{
+                                        Uri url = Uri.parse(submission['url']);
+                                        if (!await launchUrl(url)) {
+                                          throw Exception('Could not launch');
+                                        }
+                                      },
+                                      child: SizedBox(
+                                        width: MediaQuery.of(context).size.width - 90,
+                                        child: Text(
+                                          submission['title'],
+                                          style: TextStyle(
+                                            color: Data.themeColors[5],
+                                            fontSize: 18,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    submission[1], // Accessing submission timestamp
-                                    style: TextStyle(
-                                      color: Data.themeColors[5],
-                                      fontSize: 15,
+                                    Text(
+                                      submission['last_edited_at'].substring(11, 16),
+                                      style: TextStyle(
+                                        color: Data.themeColors[5],
+                                        fontSize: 15,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                                Divider(color: Data.themeColors[5],),
+                              ],
                             );
                           },
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                      width: 120,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              height: 20,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Data.themeColors[platformPageIndex],
-                                    Data.themeColors[platformPageIndex].withAlpha(100),
-                                  ],
-                                ),
-                                borderRadius: const BorderRadius.all(Radius.circular(5)),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  'PREV',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                border: Border.all(
-                                  color: Data.themeColors[5],
-                                  width: 2,
-                                )),
-                            child: Center(
-                              child: Text(
-                                '2',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Data.themeColors[5],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              height: 20,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Data.themeColors[platformPageIndex],
-                                    Data.themeColors[platformPageIndex].withAlpha(100),
-                                  ],
-                                ),
-                                borderRadius: const BorderRadius.all(Radius.circular(5)),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  'NEXT',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ],
