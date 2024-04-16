@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController pswd = TextEditingController();
   bool isObsecure = true;
   bool credentials = true;
+  bool chkUsername = true;
+  bool chkPswd = true;
   bool loading = false;
 
   @override
@@ -64,28 +66,40 @@ class _LoginPageState extends State<LoginPage> {
                 Column(
                   children: [
                     Container(
-                      height: 50,
+                      height: chkUsername ? 50 : 70,
                       color: Data.themeColors[7],
                       child: TextField(
                         keyboardType: TextInputType.text,
                         controller: username,
                         decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: Data.themeColors[8],
-                            ),
-                            labelText: 'Username',
-                            labelStyle: TextStyle(
-                              color: Data.themeColors[8],
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(color: Data.themeColors[8]),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(color: Data.themeColors[8]),
-                            )
+                          errorText: chkUsername ? null : 'Invalid User !!!',
+                          errorStyle: const TextStyle(
+                            color: Colors.redAccent,
+                          ),
+                          errorBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.redAccent),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Data.themeColors[8]),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: Data.themeColors[8],
+                          ),
+                          labelText: 'Username',
+                          labelStyle: TextStyle(
+                            color: Data.themeColors[8],
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Data.themeColors[8]),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Data.themeColors[8]),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          ),
                         ),
                         style: TextStyle(
                           color: Data.themeColors[8],
@@ -97,13 +111,25 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     Container(
-                      height: 50,
+                      height: chkPswd ? 50 : 70,
                       color: Data.themeColors[7],
                       child: TextField(
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: isObsecure,
                         controller: pswd,
                         decoration: InputDecoration(
+                          errorText: chkPswd ? null : "Invalid Password !!!",
+                          errorStyle: const TextStyle(
+                            color: Colors.redAccent,
+                          ),
+                          errorBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.redAccent),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Data.themeColors[8]),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          ),
                             prefixIcon: Icon(
                               Icons.key,
                               color: Data.themeColors[8],
@@ -142,54 +168,58 @@ class _LoginPageState extends State<LoginPage> {
                       height: 100,
                     ),
                     GestureDetector(
-                      onTap: () async {
-                        setState(() {
-                          loading = true;
-                        });
-                        if(username.text.isNotEmpty && pswd.text.isNotEmpty) {
+                      onTap: () async{
+                        if(username.text.isEmpty) {
                           setState(() {
-                            credentials = true;
+                            chkUsername = false;
                           });
-                          Future<bool> authenticate = Functions.auth(username.text, pswd.text);
-                          if(await authenticate) {
-                            Navigator.pop(context);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const DashBoard()),
-                            );
-                          } else {
-                            setState(() {
-                              credentials = false;
-                            });
-                          }
+                        } else if(pswd.text.isEmpty) {
+                          setState(() {
+                            chkUsername = true;
+                            chkPswd = false;
+                          });
                         } else {
                           setState(() {
-                            credentials = false;
+                            loading = true;
+                            chkUsername = true;
+                            chkPswd = true;
                           });
-                        }
-                        if(!credentials) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: Data.themeColors[4],
-                                title: const Text('ALERT'),
-                                content: const Text('Wrong Credentials !!!'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        loading = false;
-                                      });
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('OK'),
+                          int chk = await Functions.auth(username.text, pswd.text);
+                          if(chk == 0) {
+                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => const DashBoard(),)
+                            );
+                          } else if (chk == 1) {
+                            setState(() {
+                              chkUsername = false;
+                            });
+                          } else if (chk == 2) {
+                            setState(() {
+                              chkUsername = true;
+                              chkPswd = false;
+                            });
+                          } else {
+                            setState(() {
+                              chkUsername = true;
+                              chkPswd = true;
+                            });
+                            const snackBar = SnackBar(
+                              content: Center(
+                                child: Text(
+                                  'Something went wrong !!!\nTry again after some time.',
+                                  style: TextStyle(
+                                    color: Colors.grey,
                                   ),
-                                ],
-                              );
-                            },
-                          );
+                                ),
+                              ),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          }
+                          setState(() {
+                            loading = false;
+                          });
                         }
                       },
                       child: loading ?

@@ -1,8 +1,6 @@
+import 'package:codebuddy/Platform/PlatformPage.dart';
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
-import '../Platform/Codechef.dart';
-import '../Platform/Codeforces.dart';
-import '../Platform/Leetcode.dart';
 import '../Room/Room.dart';
 import 'Appbar.dart';
 
@@ -14,12 +12,13 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  Widget page = Data.platformPageIndex == 0 ? const Room() : PlatformPage(pageIndex: Data.platformPageIndex);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Appbar(searchBarText: Data.searchBarText[Data.platformPageIndex]),
-      body: getPage(),
+      body: page,
       bottomNavigationBar: Container(
         height: 80,
         width: double.infinity,
@@ -47,6 +46,7 @@ class _DashBoardState extends State<DashBoard> {
               onTap: (int newPage) {
                 setState(() {
                   Data.platformPageIndex = newPage;
+                  page = Data.platformPageIndex == 0 ? const Room() : PlatformPage(pageIndex: Data.platformPageIndex);
                 });
               },
               items: List.generate(
@@ -67,20 +67,5 @@ class _DashBoardState extends State<DashBoard> {
         ),
       )
     );
-  }
-
-  getPage() {
-    if(Data.platformPageIndex == 0) {
-      return const Room();
-    }
-    if(Data.platformPageIndex == 1) {
-      return const Leetcode();
-    }
-    if(Data.platformPageIndex == 2) {
-      return const Codechef();
-    }
-    if(Data.platformPageIndex == 3) {
-      return const Codeforces();
-    }
   }
 }

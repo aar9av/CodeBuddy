@@ -82,7 +82,7 @@ class _Signup2State extends State<Signup2> {
                         setState(() {
                           loading = true;
                         });
-                        Future<bool> chk = Functions.createUser(
+                        bool chk = await Functions.createUser(
                           widget.fullname,
                           widget.email,
                           widget.username,
@@ -92,7 +92,7 @@ class _Signup2State extends State<Signup2> {
                           codeforces.text,
                           bio.text,
                         );
-                        if(await chk) {
+                        if(chk) {
                           setState(() {
                             loading = false;
                           });
@@ -103,26 +103,17 @@ class _Signup2State extends State<Signup2> {
                             MaterialPageRoute(builder: (context) => const DashBoard(),),
                           );
                         } else {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: Data.themeColors[4],
-                                title: const Text('ALERT'),
-                                content: const Text('Failed to create user !!!'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        loading = false;
-                                      });
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('OK'),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Center(
+                                child: Text(
+                                  'Something went wrong !!!\nTry again after some time.',
+                                  style: TextStyle(
+                                    color: Colors.grey,
                                   ),
-                                ],
-                              );
-                            },
+                                ),
+                              ),
+                            ),
                           );
                         }
                       },

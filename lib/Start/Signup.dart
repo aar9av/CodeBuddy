@@ -19,6 +19,13 @@ class _SignupState extends State<Signup> {
   bool isObsecure = true;
   bool isObsecureCon = true;
   bool loading = false;
+  bool chkName = true;
+  bool chkEmail = true;
+  bool chkUsername = true;
+  bool chkPswd = true;
+  bool chkConPswd = true;
+  bool usernameExist = false;
+  bool emailExist = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class _SignupState extends State<Signup> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            height: 600,
+            height: 650,
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -63,48 +70,108 @@ class _SignupState extends State<Signup> {
                 ),
                 Column(
                   children: [
-                    buildTextField(fullname, 'Enter Full Name', Icons.account_circle_outlined),
+                    buildTextField(fullname, 'Enter Full Name', Icons.account_circle_outlined, 'Name cannot be empty !!!', chkName),
                     const SizedBox(height: 20),
-                    buildTextField(email, 'Enter Email', Icons.mail),
+                    buildTextField(email, 'Enter Email', Icons.mail, emailExist ? 'Email already exist!!!' : 'Invalid Email !!!', chkEmail),
                     const SizedBox(height: 20),
-                    buildTextField(username, 'Create Username', Icons.person),
+                    buildTextField(username, 'Create Username', Icons.person, usernameExist ? 'Username already exist!!!' : 'Invalid Username !!!', chkUsername),
                     const SizedBox(height: 20),
                     buildPasswordField(pswd, 'Create Password', isObsecure, (value) {
                       setState(() {
                         isObsecure = !isObsecure;
                       });
-                    }),
+                    }, 'Password cannot be empty !!!', chkPswd),
                     const SizedBox(height: 20),
                     buildPasswordField(confirmPswd, 'Confirm Password', isObsecureCon, (value) {
                       setState(() {
                         isObsecureCon = !isObsecureCon;
                       });
-                    }),
+                    }, 'Password does not match!!!', chkConPswd),
                     const SizedBox(height: 40),
                     GestureDetector(
                       onTap: () async {
-                        setState(() {
-                          loading = true;
-                        });
                         if(fullname.text.isEmpty) {
-                          buildAlertBox('Invalid Name !!!');
+                          setState(() {
+                            chkName = false;
+                          });
+                        } else if (email.text.isEmpty || !email.text.contains('@')) {
+                          setState(() {
+                            chkName = true;
+                            chkEmail = false;
+                          });
                         } else if (username.text.isEmpty) {
-                          buildAlertBox('Invalid Username !!!');
+                          setState(() {
+                            chkName = true;
+                            chkEmail = true;
+                            chkUsername = false;
+                          });
                         } else if (pswd.text.isEmpty) {
-                          buildAlertBox('Invalid Password !!!');
+                          setState(() {
+                            chkName = true;
+                            chkEmail = true;
+                            chkUsername = true;
+                            chkPswd = false;
+                          });
                         } else if (pswd.text != confirmPswd.text) {
-                          buildAlertBox('Password did not match !!!');
-                        } else if (await Functions.findUser(username.text, email.text)) {
-                          buildAlertBox('Username/Email already exist !!!');
+                          setState(() {
+                            chkName = true;
+                            chkEmail = true;
+                            chkUsername = true;
+                            chkPswd = true;
+                            chkConPswd = false;
+                          });
                         } else {
+                          setState(() {
+                            chkName = true;
+                            chkEmail = true;
+                            chkUsername = true;
+                            chkPswd = true;
+                            chkConPswd = true;
+                            loading = true;
+                          });
+                          int chk = await Functions.findUser(username.text, email.text);
+                          if (chk == 0) {
+                            setState(() {
+                              loading = false;
+                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Signup2(username: username.text, email: email.text, fullname: fullname.text, password: pswd.text)),
+                            );
+                          } else if (chk == 1) {
+                            setState(() {
+                              chkEmail = false;
+                              emailExist = true;
+                            });
+                          } else if (chk == 2) {
+                            setState(() {
+                              chkEmail = true;
+                              emailExist = false;
+                              chkUsername = false;
+                              usernameExist = true;
+                            });
+                          } else {
+                            setState(() {
+                              chkEmail = true;
+                              chkUsername = true;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Center(
+                                  child: Text(
+                                    'Something went wrong !!!\nTry again after some time.',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
                           setState(() {
                             loading = false;
                           });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Signup2(username: username.text, email: email.text, fullname: fullname.text, password: pswd.text)),
-                          );
                         }
                       },
                       child: loading ?
@@ -147,14 +214,26 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  Widget buildTextField(TextEditingController controller, String labelText, IconData prefixIcon) {
+  Widget buildTextField(TextEditingController controller, String labelText, IconData prefixIcon, String errorText, bool error) {
     return Container(
-      height: 50,
+      height: error ? 50 : 70,
       color: Data.themeColors[7],
       child: TextField(
         keyboardType: TextInputType.text,
         controller: controller,
         decoration: InputDecoration(
+          errorText: error ? null : errorText,
+          errorStyle: const TextStyle(
+            color: Colors.redAccent,
+          ),
+          errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.redAccent),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Data.themeColors[8]),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
           prefixIcon: Icon(
             prefixIcon,
             color: Data.themeColors[8],
@@ -180,15 +259,27 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  Widget buildPasswordField(TextEditingController controller, String labelText, bool isObscure, void Function(String) onPressed) {
+  Widget buildPasswordField(TextEditingController controller, String labelText, bool isObscure, void Function(String) onPressed, String errorText, bool error) {
     return Container(
-      height: 50,
+      height: error ? 50 : 70,
       color: Data.themeColors[7],
       child: TextField(
         keyboardType: TextInputType.visiblePassword,
         obscureText: isObscure,
         controller: controller,
         decoration: InputDecoration(
+          errorText: error ? null : errorText,
+          errorStyle: const TextStyle(
+            color: Colors.redAccent,
+          ),
+          errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.redAccent),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Data.themeColors[8]),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
           prefixIcon: Icon(
             Icons.key,
             color: Data.themeColors[8],
@@ -218,30 +309,6 @@ class _SignupState extends State<Signup> {
           fontSize: 18,
         ),
       ),
-    );
-  }
-
-  Future buildAlertBox(String s) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Data.themeColors[4],
-          title: const Text('ALERT'),
-          content: Text(s),
-          actions: [
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  loading = false;
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

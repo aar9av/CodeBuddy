@@ -23,6 +23,11 @@ class _EditProfile1State extends State<EditProfile1> {
   bool isObsecureConPawd = true;
   bool isPswd = false;
   bool loading = false;
+  bool chkName = true;
+  bool chkEmail = true;
+  bool chkPswd = true;
+  bool chkNewPswd = true;
+  bool chkConPswd = true;
 
   @override
   void initState() {
@@ -109,10 +114,10 @@ class _EditProfile1State extends State<EditProfile1> {
                             ),
                             border: InputBorder.none,
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkName ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkName ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           ),
@@ -166,10 +171,10 @@ class _EditProfile1State extends State<EditProfile1> {
                             ),
                             border: InputBorder.none,
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkEmail ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkEmail ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                           ),
@@ -206,10 +211,10 @@ class _EditProfile1State extends State<EditProfile1> {
                             ),
                             border: InputBorder.none,
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkPswd ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkPswd ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                             suffixIcon: IconButton(
@@ -246,10 +251,10 @@ class _EditProfile1State extends State<EditProfile1> {
                             ),
                             border: InputBorder.none,
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkNewPswd ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkNewPswd ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                             suffixIcon: IconButton(
@@ -286,10 +291,10 @@ class _EditProfile1State extends State<EditProfile1> {
                             ),
                             border: InputBorder.none,
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkConPswd ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Data.themeColors[0]),
+                              borderSide: BorderSide(color: chkConPswd ? Data.themeColors[0] : Colors.redAccent),
                             ),
                             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                             suffixIcon: IconButton(
@@ -347,20 +352,58 @@ class _EditProfile1State extends State<EditProfile1> {
                               setState(() {
                                 loading = true;
                               });
-                              if(fullName.text.isEmpty) {
-                                buildAlertBox('Invalid Name !!!');
-                              } else if (userName.text.isEmpty) {
-                                buildAlertBox('Invalid Username !!!');
-                              } else if (await Functions.findUser('####', email.text) && email.text != Data.email) {
-                                buildAlertBox('Email already exist !!!');
+                              if (fullName.text.isEmpty) {
+                                setState(() {
+                                  chkName = false;
+                                });
+                                showSnack('Name cannot be null !!!');
+                              } else if (email.text.isEmpty || !email.text.contains('@')) {
+                                setState(() {
+                                  chkName = true;
+                                  chkEmail = false;
+                                });
+                                showSnack('Invalid Email !!!');
+                              } else if (await Functions.findUser('####', email.text) == 1 && email.text != Data.email) {
+                                setState(() {
+                                  setState(() {
+                                    chkName = true;
+                                    chkEmail = false;
+                                  });
+                                });
+                                showSnack('Email already Exist !!!');
                               } else if(oldPswd.text.isNotEmpty) {
-                                if(await Functions.auth(Data.username, oldPswd.text)) {
+                                if (await Functions.auth(Data.username, oldPswd.text) != 0) {
+                                  setState(() {
+                                    chkName = true;
+                                    chkEmail = true;
+                                    chkPswd = false;
+                                  });
+                                  showSnack('Invalid Password !!!');
+                                } else {
                                   if(newPswd.text.isEmpty) {
-                                    buildAlertBox('Password can not be empty !!!');
+                                    setState(() {
+                                      chkName = true;
+                                      chkEmail = true;
+                                      chkPswd = true;
+                                      chkNewPswd = false;
+                                    });
+                                    showSnack('Password cannot be empty !!!');
                                   } else if (newPswd.text != conPawd.text) {
-                                    buildAlertBox('Password did not match !!!');
+                                    setState(() {
+                                      chkName = true;
+                                      chkEmail = true;
+                                      chkPswd = true;
+                                      chkNewPswd = true;
+                                      chkConPswd = false;
+                                    });
+                                    showSnack('Password does not match !!!');
                                   } else {
                                     setState(() {
+                                      chkName = true;
+                                      chkEmail = true;
+                                      chkPswd = true;
+                                      chkNewPswd = true;
+                                      chkConPswd = true;
                                       isPswd = true;
                                       loading = false;
                                     });
@@ -371,11 +414,15 @@ class _EditProfile1State extends State<EditProfile1> {
                                       ),
                                     );
                                   }
-                                } else {
-                                  buildAlertBox('Invalid Password !!!');
                                 }
                               } else {
                                 setState(() {
+                                  chkName = true;
+                                  chkEmail = true;
+                                  chkPswd = true;
+                                  chkNewPswd = true;
+                                  chkConPswd = true;
+                                  isPswd = false;
                                   loading = false;
                                 });
                                 Navigator.push(
@@ -385,6 +432,9 @@ class _EditProfile1State extends State<EditProfile1> {
                                   ),
                                 );
                               }
+                              setState(() {
+                                loading = false;
+                              });
                             },
                             child: loading ?
                             SizedBox(
@@ -435,27 +485,17 @@ class _EditProfile1State extends State<EditProfile1> {
     );
   }
 
-  Future buildAlertBox(String s) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Data.themeColors[4],
-          title: const Text('ALERT'),
-          content: Text(s),
-          actions: [
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  loading = false;
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
+  void showSnack(String error) {
+    final snackBar = SnackBar(
+      content: Center(
+        child: Text(
+          error,
+          style: const TextStyle(
+            color: Colors.grey,
+          ),
+        ),
+      ),
     );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

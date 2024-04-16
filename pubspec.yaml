@@ -38,11 +38,11 @@ dependencies:
   http: ^1.2.1
   flutter_dotenv: ^5.1.0
 
+  url_launcher: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  url_launcher: ^6.2.6
   flutter_launcher_icons: ^0.13.1
 
 flutter_launcher_icons:

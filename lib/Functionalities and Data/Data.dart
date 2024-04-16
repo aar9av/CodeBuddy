@@ -12,6 +12,8 @@ class Data {
   // API Testing
   static Map<String, dynamic>? currentUser;
 
+  static List<dynamic> allUsers = [];
+
   // Theme Colors
   static List<Color> themeColors = [
     const Color(0xFF9DB2BF),    // 0

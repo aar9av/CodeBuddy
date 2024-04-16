@@ -8,17 +8,17 @@ import 'Contest.dart';
 import 'PlatformCard.dart';
 import 'Submission.dart';
 
-class Leetcode extends StatefulWidget {
+class PlatformPage extends StatefulWidget {
+  final pageIndex;
 
   // ignore: use_super_parameters
-  const Leetcode({Key? key}) : super(key: key);
-
+  const PlatformPage({Key? key, this.pageIndex}) : super(key: key);
 
   @override
-  State<Leetcode> createState() => _PlatformState();
+  State<PlatformPage> createState() => _PlatformState();
 }
 
-class _PlatformState extends State<Leetcode> {
+class _PlatformState extends State<PlatformPage> {
 
   @override
   Widget build(BuildContext context) {

@@ -118,7 +118,7 @@ class Functions {
     if(badge == 'Knight') {
       return Colors.green.shade900;
     }
-    if(badge == 'Gardian') {
+    if(badge == 'Guardian') {
       return Colors.blueAccent;
     }
     if(badge[0] == '\u2605') {
@@ -177,7 +177,7 @@ class Functions {
     return Colors.transparent;
   }
 
-  static Future<bool> auth(String username, String pswd) async {
+  static Future<int> auth(String username, String pswd) async {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
     String apiUrl = '$url/user/$username/authenticate';
@@ -199,13 +199,17 @@ class Functions {
         Data.currentUser = jsonData['user'];
         updateUserData();
         getUserSubmissions(username);
-        return true;
+        return 0;
+      } else if (response.statusCode == 404) {
+        return 1;
+      } else if (response.statusCode == 400) {
+        return 2;
       } else {
-        return false;
+        return 3;
       }
     } catch (e) {
-      print('Error: $e');
-      return false;
+      print(e);
+      return 3;
     }
   }
 
@@ -252,7 +256,7 @@ class Functions {
     }
   }
 
-  static Future<bool> findUser(String username, String email) async {
+  static Future<int> findUser(String username, String email) async {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
     String apiUrl = '$url/users';
@@ -262,18 +266,23 @@ class Functions {
         'Authorization': 'Bearer $authToken',
       });
       if (response.statusCode == 200) {
-        List<dynamic> users = jsonDecode(response.body) as List<dynamic>;
-        for (var user in users) {
-          if (user['username'] == username || user['email'] == email) {
-            return true;
+        Data.allUsers = jsonDecode(response.body) as List<dynamic>;
+        for (var user in Data.allUsers) {
+          if (user['email'] == email) {
+            print(user['username']);
+            print(email);
+            return 1;
+          }
+          if(user['username'] == username) {
+            return 2;
           }
         }
-        return false;
+        return 0;
       } else {
-        return false;
+        return 3;
       }
     } catch (e) {
-      return false;
+      return 3;
     }
   }
 
@@ -360,7 +369,7 @@ class Functions {
           (Data.currentUser?['number_of_codeforces_contests'] ?? '0').toString(),
           Functions.get_badge(2, Data.currentUser?['codeforces_rating'] ?? 0),
           (Data.currentUser?['number_of_codeforces_questions'] ?? '0').toString(),
-          (Data.currentUser?['global_rank_codeforces'] ?? '').toString() == '-1' ? '' : (Data.currentUser?['global_rank_codeforces'] ?? '').toString()
+          '',
         ],
       ];
       getUserSubmissions(Data.username);

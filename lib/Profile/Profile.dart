@@ -39,7 +39,6 @@ class _ProfileState extends State<Profile> {
                     Image.asset(
                       'Assets/Profile.png',
                       height: 100,
-                      color: Data.themeColors[5],
                     ),
                     Text(
                       Data.name,
