@@ -150,11 +150,15 @@ class _ContestState extends State<Contest> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        contest['contest']['title'] ?? '',
-                                        style: TextStyle(
-                                          color: Data.themeColors[5],
-                                          fontSize: 24,
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width - 120,
+                                        child: Text(
+                                          contest['contest']['title'] ?? '',
+                                          style: TextStyle(
+                                            color: Data.themeColors[5],
+                                            fontSize: 24,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Text(

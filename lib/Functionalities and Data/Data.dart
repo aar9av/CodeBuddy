@@ -18,37 +18,10 @@ class Data {
     Colors.yellow               // 9
   ];
 
-  static Map<String, dynamic>? currentUser;
-
-  static List<dynamic> allRooms = [];
-
-  static List<dynamic> userRooms = [];
-
-  static int platformPageIndex = 0;
-
-  static List<dynamic>submissions = [[],[],[]];
-
-  static List<dynamic>contests = [[],[],[]];
-
-
-
-  static Map<String, dynamic>? searchedUser;
-
   static List<dynamic> allUsers = [];
 
-  static List<dynamic> searchResult = [];
+  static Map<String, dynamic>? currentUser;
 
-
-
-  // Nav Bar Images
-  static List<String> platformIcon = [
-    'Assets/Home.png',
-    'Assets/Leetcode.png',
-    'Assets/Codechef.png',
-    'Assets/CodeForces.png'
-  ];
-
-  // Current User Info
   static String username = currentUser?['username'] ?? '';
   static String name = (currentUser?['first_name'] ?? '') + ' ' + (currentUser?['last_name'] ?? '');
   static String email = currentUser?['email'] ?? '';
@@ -58,12 +31,34 @@ class Data {
   static String bio = currentUser?['bio'] ?? '';
   static int roomCreated = 0;
 
+  static List<String> platformIcon = [
+    'Assets/Home.png',
+    'Assets/Leetcode.png',
+    'Assets/Codechef.png',
+    'Assets/CodeForces.png'
+  ];
+
   static List<dynamic> platformData = [['Leetcode', '', '', 0, '', 0, ''], ['Codechef', '', '', 0, '', 0, ''], ['Codeforces', '', '', 0, '', 0, '']];
 
+  static int platformPageIndex = 0;
+
+  static List<dynamic>submissions = [[],[],[]];
+
+  static List<dynamic>contests = [[],[],[]];
+
+  static List<dynamic> searchResult = [];
+
+  static Map<String, dynamic>? searchedUser;
+
   static List<List> searchedUserPlatformData = [['', 0, ''], ['', 0, ''], ['', 0, '']];
+
+  static List<dynamic> allRooms = [];
+
+  static List<dynamic> userRooms = [];
 
   static List<dynamic> roomChats = [];
 
   static dynamic searchedRoom;
+
   static List<dynamic> searchedRoomChats = [];
 }

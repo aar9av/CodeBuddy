@@ -141,44 +141,6 @@ class Functions {
     return Colors.transparent;
   }
 
-  static Future<int> auth(String username, String pswd) async {
-    String? authToken = dotenv.env['TOKEN'];
-    String? url = dotenv.env['URL'];
-    String apiUrl = '$url/user/$username/authenticate';
-
-    try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: <String, String>{
-          'Authorization': 'Bearer $authToken',
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(<String, String>{
-          'username': username,
-          'password': pswd,
-        }),
-      );
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        Data.currentUser = jsonData['user'];
-        await updateUserData();
-        await getUserSubmissions(username);
-        await getUserContests(username);
-        await getRooms(username);
-        return 0;
-      } else if (response.statusCode == 404) {
-        return 1;
-      } else if (response.statusCode == 400) {
-        return 2;
-      } else {
-        return 3;
-      }
-    } catch (e) {
-      print(e);
-      return 3;
-    }
-  }
-
   static Future<bool> createUser(String fullName, String email, String username, String password, String leetcode_id, String codechef_id, String codeforces_id, String bio) async {
     List<String> names = fullName.split(" ");
     String firstName = names.isNotEmpty ? names.first : '';
@@ -186,15 +148,6 @@ class Functions {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
     String apiUrl = '$url/user/$username/create';
-    print(username);
-    print(email);
-    print(password);
-    print(firstName.trim());
-    print(lastName.trim());
-    print(bio);
-    print(leetcode_id);
-    print(codechef_id);
-    print(codeforces_id);
 
     try {
       final response = await http.post(
@@ -211,13 +164,13 @@ class Functions {
           "last_name": lastName.trim(),
           "bio": bio,
           "leetcode": {
-            "id": leetcode_id,
+            "id": leetcode_id == '' ? null : leetcode_id,
           },
           "codechef": {
-            "id": codechef_id,
+            "id": codechef_id == '' ? null : codechef_id,
           },
           "codeforces": {
-            "id": codeforces_id,
+            "id": codeforces_id == '' ? null : codeforces_id,
           },
         }),
       );
@@ -270,6 +223,44 @@ class Functions {
     }
   }
 
+  static Future<int> auth(String username, String pswd) async {
+    String? authToken = dotenv.env['TOKEN'];
+    String? url = dotenv.env['URL'];
+    String apiUrl = '$url/user/$username/authenticate';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Authorization': 'Bearer $authToken',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          'username': username,
+          'password': pswd,
+        }),
+      );
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        Data.currentUser = jsonData['user'];
+        await updateUserData();
+        await getUserSubmissions(username);
+        await getUserContests(username);
+        await getRooms(username);
+        return 0;
+      } else if (response.statusCode == 404) {
+        return 1;
+      } else if (response.statusCode == 400) {
+        return 2;
+      } else {
+        return 3;
+      }
+    } catch (e) {
+      print(e);
+      return 3;
+    }
+  }
+
   static Future<bool> updateUser(String username, String email, String fullName, String leetcode, String codechef, String codeforces, String bio, bool? isPswd, String password) async {
     List<String> names = fullName.split(" ");
     String firstName = names.isNotEmpty ? names.first : '';
@@ -285,13 +276,13 @@ class Functions {
         "last_name": lastName.trim(),
         "bio": bio,
         "leetcode": {
-          "id": leetcode,
+          "id": leetcode == '' ? null : leetcode,
         },
         "codechef": {
-          "id": codechef,
+          "id": codechef == '' ? null : codechef,
         },
         "codeforces": {
-          "id": codeforces,
+          "id": codeforces == '' ? null : codeforces,
         },
       };
       if (isPswd == true) {
