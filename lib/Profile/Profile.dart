@@ -332,7 +332,7 @@ class _ProfileState extends State<Profile> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    Data.createdRooms.length.toString(),
+                                    Data.roomCreated.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 28,
@@ -403,9 +403,9 @@ class _ProfileState extends State<Profile> {
         },
         elevation: 5,
         backgroundColor: Data.themeColors[0],
-        child:  const Icon(
+        child: Icon(
           Icons.edit,
-          color: Colors.black,
+          color: Data.themeColors[7],
           size: 30,
         ),
       ),

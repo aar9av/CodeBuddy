@@ -4,23 +4,22 @@ import 'package:codebuddy/Room/RoomDiscription.dart';
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Functionalities and Data/Functions.dart';
+import 'SearchedRoomDescription.dart';
 
-class RoomChat extends StatefulWidget {
-  final int index;
-
-  const RoomChat({super.key, required this.index});
+class SearchedRoom extends StatefulWidget {
 
   @override
-  _RoomChatState createState() => _RoomChatState();
+  _SearchedRoomState createState() => _SearchedRoomState();
 }
 
-class _RoomChatState extends State<RoomChat> {
+class _SearchedRoomState extends State<SearchedRoom> {
   TextEditingController message = TextEditingController();
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    dynamic roomData = Data.userRooms[widget.index];
+    dynamic roomData = Data.searchedRoom;
+    dynamic roomChats = Data.searchedRoomChats;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +28,7 @@ class _RoomChatState extends State<RoomChat> {
         backgroundColor: Data.themeColors[0],
         title: TextButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => RoomDescription(index: widget.index),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchedRoomDescription(),));
           },
           child: Text(
             roomData['name'],
@@ -67,9 +66,9 @@ class _RoomChatState extends State<RoomChat> {
                           padding: const EdgeInsets.all(10),
                           child: ListView.builder(
                             reverse: true,
-                            itemCount: Data.roomChats.length,
+                            itemCount: Data.searchedRoomChats.length,
                             itemBuilder: (context, index) {
-                              final message = Data.roomChats[index];
+                              final message = Data.searchedRoomChats[index];
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [

@@ -8,42 +8,6 @@ import 'package:http/http.dart' as http;
 
 class Functions {
 
-  static getRoomsJoined() {
-    return Data.roomData.length;
-  }
-
-  static getRoomsCreated() {
-    int res = 0;
-    for(int i=0; i<Data.roomData.length; ++i) {
-      if(Data.roomData[i][0] == Data.username) {
-        res++;
-      }
-    }
-    return res;
-  }
-
-  static void createRoom(String roomName, String roomTech, List<String> roomMembers, String roomDescription) {
-    Data.roomData.add([
-      Data.username,
-      roomName,
-      roomTech,
-      roomDescription,
-      '0 min',
-      roomMembers,
-      [],
-    ]);
-  }
-
-  static List<int> getCreatedRoomData() {
-    List<int> roomCreated = [];
-    for(int i=0; i<Data.roomData.length; ++i) {
-      if(Data.roomData[i][0] == Data.username) {
-        roomCreated.add(i);
-      }
-    }
-    return roomCreated;
-  }
-
   static String get_badge(int platformIndex, int rating) {
     if(rating == 0) {
       return '';
@@ -222,6 +186,15 @@ class Functions {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
     String apiUrl = '$url/user/$username/create';
+    print(username);
+    print(email);
+    print(password);
+    print(firstName.trim());
+    print(lastName.trim());
+    print(bio);
+    print(leetcode_id);
+    print(codechef_id);
+    print(codeforces_id);
 
     try {
       final response = await http.post(
@@ -231,6 +204,7 @@ class Functions {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(<String, dynamic>{
+          'username': username,
           "email": email,
           "password": password,
           "first_name": firstName.trim(),
@@ -247,7 +221,6 @@ class Functions {
           },
         }),
       );
-
       if (response.statusCode == 201) {
         final jsonData = jsonDecode(response.body);
         Data.currentUser = jsonData;
@@ -358,8 +331,6 @@ class Functions {
       Data.codechefUsername = Data.currentUser?['codechef']['id'] ?? '';
       Data.codeforcesUsername = Data.currentUser?['codeforces']['id'] ?? '';
       Data.bio = Data.currentUser?['bio'] ?? '';
-      Data.roomsJoined = Functions.getRoomsJoined().toString();
-      Data.roomsCreated = Functions.getRoomsCreated().toString();
       Data.platformData = [
         [
           'Leetcode',
@@ -461,6 +432,19 @@ class Functions {
   }
 
   static void updateSelectedUserPlatformData() {
+    int roomsJoined = 0, roomsCreated = 0;
+    for(int i=0; i<Data.allRooms.length; ++i) {
+      for(int j=0; j<Data.allRooms[i]['participants'].length; ++j) {
+        if(Data.allRooms[i]['participants'][j] == Data.searchedUser?['username']) {
+          roomsJoined++;
+        }
+      }
+      if(Data.allRooms[i]['host'] == Data.searchedUser?['username']) {
+        roomsCreated++;
+      }
+    }
+    Data.searchedUser?['rooms_joined'] = roomsJoined;
+    Data.searchedUser?['rooms_created'] = roomsCreated;
     Data.searchedUserPlatformData = [
       [
         (Data.searchedUser?['leetcode']['id'] ?? '').toString(),
@@ -492,7 +476,7 @@ class Functions {
       if (response.statusCode == 200) {
         Data.allRooms = jsonDecode(response.body) as List<dynamic>;
         Data.userRooms = [];
-        Data.createdRooms = [];
+        Data.roomCreated = 0;
         for(int i=0; i<Data.allRooms.length; ++i) {
           for(int j=0; j<Data.allRooms[i]['participants'].length; ++j) {
             if(Data.allRooms[i]['participants'][j] == username) {
@@ -500,13 +484,10 @@ class Functions {
             }
           }
           if(Data.allRooms[i]['host'] == username) {
-            Data.createdRooms.add(Data.allRooms[i]);
+            Data.roomCreated++;
           }
         }
         for (var subList in Data.userRooms) {
-          subList.sort((a, b) => DateTime.parse(b['updated']).compareTo(DateTime.parse(a['updated'])));
-        }
-        for (var subList in Data.createdRooms) {
           subList.sort((a, b) => DateTime.parse(b['updated']).compareTo(DateTime.parse(a['updated'])));
         }
       } else {
@@ -517,7 +498,7 @@ class Functions {
     }
   }
 
-  static getRoomChat(roomID) async {
+  static getRoomChat(roomID, isSearched) async {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
     String apiUrl = '$url/room/$roomID/messages';
@@ -528,11 +509,10 @@ class Functions {
       });
       if (response.statusCode == 200) {
         List<dynamic> roomChat = jsonDecode(response.body) as List<dynamic>;
-        Data.roomChats = roomChat;
+        isSearched ? Data.searchedRoomChats = roomChat : Data.roomChats = roomChat;
         for (var subList in Data.roomChats) {
           subList.sort((a, b) => DateTime.parse(b['updated']).compareTo(DateTime.parse(a['updated'])));
         }
-        Data.roomChats.reversed.toList();
       } else {
         print('Error');
       }
@@ -561,7 +541,7 @@ class Functions {
         body: jsonEncode(requestBody),
       );
       if (response.statusCode == 200) {
-        await Functions.getRoomChat(roomID);
+        await Functions.getRoomChat(roomID, true);
         return true;
       } else {
         return false;

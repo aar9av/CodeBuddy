@@ -1,18 +1,13 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 
-class RoomDescription extends StatelessWidget {
-  final int index;
-
-  const RoomDescription({super.key, required this.index});
+class SearchedRoomDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dynamic roomData = Data.userRooms[index];
-    String tags = '';
-    for(int i=0; i<roomData['topics'].length; ++i) {
-      tags += roomData['topics'][i]['name'];
-    }
+    dynamic roomData = Data.searchedRoom;
 
     return Scaffold(
       body: SingleChildScrollView(

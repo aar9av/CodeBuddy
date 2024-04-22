@@ -3,11 +3,13 @@
 import 'dart:math';
 import 'package:codebuddy/Functionalities%20and%20Data/Functions.dart';
 import 'package:codebuddy/Profile/SearchedUser.dart';
+import 'package:codebuddy/Room/RoomChat.dart';
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Platform/PlatformPage.dart';
 import '../Profile/Profile.dart';
 import '../Room/Room.dart';
+import '../Room/SearchedRoom.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
@@ -105,7 +107,64 @@ class _DashBoardState extends State<DashBoard> {
               child: Visibility(
                 visible: Data.searchResult.isNotEmpty,
                 child: SingleChildScrollView(
-                  child: Container(
+                  child: Data.platformPageIndex == 0 ?
+                  Container(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    decoration: BoxDecoration(
+                      color: Data.themeColors[6].withOpacity(0.9),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    ),
+                    height: min(Data.searchResult.length * 40, 200),
+                    child: Container(
+                      color: Colors.transparent,
+                      child: ListView.builder(
+                        itemCount: Data.searchResult.length,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            height: 40,
+                            child: TextButton(
+                              onPressed: () async {
+                                if(!isLoading) {
+                                  _searchFocusNode.unfocus();
+                                  setState(() {
+                                    isLoading = true;
+                                    findValue.clear();
+                                  });
+                                  Data.searchedRoom = Data.searchResult[index];
+                                  await Functions.getRoomChat(Data.searchResult[index]['id'], true);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (
+                                        context) => SearchedRoom()),
+                                  ).then((_) async {
+                                    await Functions.getRooms(Data.username);
+                                    setState(() {
+                                      isLoading = false;
+                                      Data.searchResult = [];
+                                    });
+                                  });
+                                }
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                              ),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  Data.searchResult[index]['name'],
+                                  style: TextStyle(
+                                    color: Data.themeColors[5],
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ) :
+                  Container(
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     decoration: BoxDecoration(
                       color: Data.themeColors[6].withOpacity(0.9),
@@ -231,9 +290,9 @@ class _DashBoardState extends State<DashBoard> {
   void searchRoom(String value) {
     setState(() {
       Data.searchResult = [];
-      for (int i = 0; i < Data.allUsers.length && Data.searchResult.length <= 5; ++i) {
-        if (Data.allUsers[i]['username'].contains(value) && Data.searchResult.length <= 5 && value != '') {
-          Data.searchResult.add(Data.allUsers[i]['username']);
+      for (int i = 0; i < Data.allRooms.length && Data.searchResult.length <= 5; ++i) {
+        if (Data.allRooms[i]['name'].contains(value) && Data.searchResult.length <= 5 && value != '') {
+          Data.searchResult.add(Data.allRooms[i]);
         }
       }
     });

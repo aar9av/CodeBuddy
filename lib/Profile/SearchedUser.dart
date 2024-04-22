@@ -520,7 +520,7 @@ class _SearchedUserState extends State<SearchedUser> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    Data.roomsJoined,
+                                    (Data.searchedUser?['rooms_joined']??0).toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 28,
@@ -557,7 +557,7 @@ class _SearchedUserState extends State<SearchedUser> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    Data.roomsCreated,
+                                    (Data.searchedUser?['rooms_created']??0).toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 28,
