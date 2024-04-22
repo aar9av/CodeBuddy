@@ -83,7 +83,7 @@ class _PlatformState extends State<PlatformPage> {
                     left: 20,
                     right: 20,
                   ),
-                  child: const PlatformCard(isPlatform: true),
+                  child: PlatformCard(isPlatform: true, pageIndex: Data.platformPageIndex),
                 ),
                 Container(
                   width: double.infinity,

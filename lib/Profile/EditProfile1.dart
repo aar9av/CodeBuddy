@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Functionalities and Data/Functions.dart';
-import '../Start/Appbar.dart';
 import 'EditProfile2.dart';
 
 class EditProfile1 extends StatefulWidget {
@@ -46,7 +45,6 @@ class _EditProfile1State extends State<EditProfile1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbar(searchBarText: Data.searchBarText[6]),
       body: Center(
         child: SingleChildScrollView(
           child: Container(

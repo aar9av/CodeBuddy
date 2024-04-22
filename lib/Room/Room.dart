@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Functionalities and Data/Functions.dart';
 import 'CreateRoom.dart';
-import 'RoomCard.dart';
+import 'RoomChat.dart';
 
 
 class Room extends StatefulWidget {
@@ -19,6 +19,7 @@ class _RoomState extends State<Room> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
@@ -57,14 +58,157 @@ class _RoomState extends State<Room> {
                       ),
                     ),
                     Container(
-                      height: min(MediaQuery.of(context).size.height - 330, (isCreated ? roomCreated.length : Data.roomData.length) * 140),
+                      height: min(MediaQuery.of(context).size.height - 330, (isCreated ? Data.createdRooms.length : Data.userRooms.length) * 140),
                       color: Colors.transparent,
-                      child: ListView.builder(
-                        itemCount: isCreated ? roomCreated.length : Data.roomData.length,
+                      child: isCreated ?
+                      ListView.builder(
+                        itemCount: Data.createdRooms.length,
                         itemBuilder: (context, index) {
-                            return isCreated ? RoomCard(index: roomCreated[index]) : RoomCard(index: index);
-                        },
-                      ),
+                          dynamic roomData = Data.createdRooms[index];
+                          return GestureDetector(
+                            onTap: () async {
+                              await Functions.getRoomChat(roomData['id']);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => RoomChat(index: index, isCreated: isCreated),),
+                              );
+                            },
+                            child: Container(
+                                height: 130,
+                                width: double.infinity,
+                                padding:  const EdgeInsets.all(10),
+                                margin:  const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: Data.themeColors[7],
+                                  borderRadius:  const BorderRadius.all(Radius.circular(10)),
+                                  border: Border.all(
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Image.asset(
+                                          'Assets/Profile.png',
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          '  ${roomData['host']}',
+                                          style: TextStyle(
+                                            color: Data.themeColors[5],
+                                            fontSize: 18,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        roomData['name'],
+                                        style: TextStyle(
+                                          color: Data.themeColors[5],
+                                          fontSize: 24,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: Data.themeColors[5],
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        '${roomData['participants'].length} members',
+                                        style: TextStyle(
+                                          color: Data.themeColors[5],
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                            ),
+                          );
+                        }
+                      ) :
+                      ListView.builder(
+                          itemCount: Data.userRooms.length,
+                          itemBuilder: (context, index) {
+                            dynamic roomData = Data.userRooms[index];
+                            return GestureDetector(
+                              onTap: () async {
+                                await Functions.getRoomChat(roomData['id']);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => RoomChat(index: index, isCreated: isCreated),),
+                                );
+                              },
+                              child: Container(
+                                  height: 130,
+                                  width: double.infinity,
+                                  padding:  const EdgeInsets.all(10),
+                                  margin:  const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Data.themeColors[7],
+                                    borderRadius:  const BorderRadius.all(Radius.circular(10)),
+                                    border: Border.all(
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Image.asset(
+                                            'Assets/Profile.png',
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            '  ${roomData['host']}',
+                                            style: TextStyle(
+                                              color: Data.themeColors[5],
+                                              fontSize: 18,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          roomData['name'],
+                                          style: TextStyle(
+                                            color: Data.themeColors[5],
+                                            fontSize: 24,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Divider(
+                                        color: Data.themeColors[5],
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '${roomData['participants'].length} members',
+                                          style: TextStyle(
+                                            color: Data.themeColors[5],
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                              ),
+                            );
+                          }
+                      )
                     )
                   ],
                 ),

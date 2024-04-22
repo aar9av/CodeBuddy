@@ -7,10 +7,11 @@ import '../Functionalities and Data/Functions.dart';
 
 class PlatformCard extends StatelessWidget {
   final isPlatform;
+  final pageIndex;
 
-   const PlatformCard({
+  const PlatformCard({
     super.key,
-    required this.isPlatform,
+    required this.isPlatform, this.pageIndex,
   });
 
   @override

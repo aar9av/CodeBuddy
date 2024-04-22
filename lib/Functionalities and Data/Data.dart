@@ -5,14 +5,26 @@ import 'Functions.dart';
 
 class Data {
 
+  static List<dynamic> allRooms = [];
+
+  static List<dynamic> userRooms = [];
+
+  static List<dynamic> createdRooms = [];
+
   static int platformPageIndex = 0;
 
   static List<dynamic>submissions = [[],[],[]];
 
+  static List<dynamic>contests = [[],[],[]];
+
   // API Testing
   static Map<String, dynamic>? currentUser;
 
+  static Map<String, dynamic>? searchedUser;
+
   static List<dynamic> allUsers = [];
+
+  static List<dynamic> searchResult = [];
 
   // Theme Colors
   static List<Color> themeColors = [
@@ -26,18 +38,6 @@ class Data {
     const Color(0xFF000000),    // 7
     Colors.cyan,                // 8
     Colors.yellow               // 9
-  ];
-
-  // Search Bar Text
-  static List<String> searchBarText = [
-    'Search Room',              // 0
-    'Search Leetcode User',     // 1
-    'Search Codechef User',     // 2
-    'Search Codeforces User',   // 3
-    'Serach Submission',        // 4
-    'Search Contest',           // 5
-    'Search User',              // 6
-    'Search Room Member',       // 7
   ];
 
   // Nav Bar Images
@@ -81,22 +81,9 @@ class Data {
   ];
 
   // Platform Data
-  static List<dynamic> platformData = [[], [], []];
+  static List<dynamic> platformData = [['Leetcode', '', '', 0, '', 0, ''], ['Codechef', '', '', 0, '', 0, ''], ['Codeforces', '', '', 0, '', 0, '']];
 
-  static List<dynamic> contests = [
-    [
-      ["Weekly Contest 389", "5139", "17, March 2024", "+(13)", "3", "4"],
-      ["Biweekly Contest 126", "2185", "16, March 2024", "+(42)", "3", "4"],
-      ["Weekly Contest 388", "6101", "10, March 2024", "+(12)", "3", "4"],
-    ],
-    [
-      ["Starters 126 (Div 2)", "1175", "20, March 2024", "-(44)", "2", "7"],
-      ["Starters 125 (Div 2)", "243", "13, March 2024", "+(129)", "4", "7"],
-      ["Starters 124 (Div 2)", "795", "6, March 2024", "+(35)", "4", "7"],
-    ],
-    [
-      ["Round 935 (Div 3)", "3757", "19, March 2024", "+(328)", "3", "8"],
-      ["Round 933 (Div 3)", "11083", "11, March 2024", "+(437)", "3", "7"],
-    ]
-  ];
+  static List<List> searchedUserPlatformData = [['', 0, ''], ['', 0, ''], ['', 0, '']];
+
+  static List<dynamic> roomChats = [];
 }

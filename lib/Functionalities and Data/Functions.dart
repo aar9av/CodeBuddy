@@ -197,8 +197,10 @@ class Functions {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         Data.currentUser = jsonData['user'];
-        updateUserData();
-        getUserSubmissions(username);
+        await updateUserData();
+        await getUserSubmissions(username);
+        await getUserContests(username);
+        await getRooms(username);
         return 0;
       } else if (response.statusCode == 404) {
         return 1;
@@ -219,7 +221,7 @@ class Functions {
     String lastName = names.length > 1 ? names.sublist(1).join(" ") : '';
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
-    String apiUrl = '$url/user/create/$username';
+    String apiUrl = '$url/user/$username/create';
 
     try {
       final response = await http.post(
@@ -234,20 +236,27 @@ class Functions {
           "first_name": firstName.trim(),
           "last_name": lastName.trim(),
           "bio": bio,
-          "codechef_id": codechef_id,
-          "codeforces_id": codeforces_id,
-          "leetcode_id": leetcode_id
+          "leetcode": {
+            "id": leetcode_id,
+          },
+          "codechef": {
+            "id": codechef_id,
+          },
+          "codeforces": {
+            "id": codeforces_id,
+          },
         }),
       );
 
       if (response.statusCode == 201) {
         final jsonData = jsonDecode(response.body);
         Data.currentUser = jsonData;
-        updateUserData();
-        getUserSubmissions(username);
+        await updateUserData();
+        await getUserSubmissions(username);
+        await getUserContests(username);
+        await getRooms(username);
         return true;
       } else {
-        print('Response body: ${response.body}');
         return false;
       }
     } catch (e) {
@@ -260,6 +269,8 @@ class Functions {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
     String apiUrl = '$url/users';
+    Data.searchedUser?.clear();
+    Data.searchedUserPlatformData = [[],[],[]];
 
     try {
       final response = await http.get(Uri.parse(apiUrl), headers: <String, String>{
@@ -269,11 +280,11 @@ class Functions {
         Data.allUsers = jsonDecode(response.body) as List<dynamic>;
         for (var user in Data.allUsers) {
           if (user['email'] == email) {
-            print(user['username']);
-            print(email);
             return 1;
           }
           if(user['username'] == username) {
+            Data.searchedUser = user;
+            updateSelectedUserPlatformData();
             return 2;
           }
         }
@@ -300,9 +311,15 @@ class Functions {
         "first_name": firstName.trim(),
         "last_name": lastName.trim(),
         "bio": bio,
-        "codechef_id": codechef,
-        "codeforces_id": codeforces,
-        "leetcode_id": leetcode,
+        "leetcode": {
+          "id": leetcode,
+        },
+        "codechef": {
+          "id": codechef,
+        },
+        "codeforces": {
+          "id": codeforces,
+        },
       };
       if (isPswd == true) {
         requestBody['password'] = password;
@@ -316,14 +333,15 @@ class Functions {
         },
         body: jsonEncode(requestBody),
       );
-
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final jsonData = jsonDecode(response.body);
         Data.currentUser = jsonData;
-        updateUserData();
+        await updateUserData();
+        await getUserSubmissions(username);
+        await getUserContests(username);
+        await getRooms(username);
         return true;
       } else {
-        print('Response body: ${response.body}');
         return false;
       }
     } catch (e) {
@@ -332,14 +350,13 @@ class Functions {
     }
   }
 
-  static void updateUserData() {
+  static Future<void> updateUserData() async {
       Data.username = Data.currentUser?['username'] ?? '';
-      Data.name = (Data.currentUser?['first_name'] ?? '') + ' ' +
-          (Data.currentUser?['last_name'] ?? '');
+      Data.name = (Data.currentUser?['first_name'] ?? '') + ' ' + (Data.currentUser?['last_name'] ?? '');
       Data.email = Data.currentUser?['email'] ?? '';
-      Data.leetcodeUsername = Data.currentUser?['leetcode_id'] ?? '';
-      Data.codechefUsername = Data.currentUser?['codechef_id'] ?? '';
-      Data.codeforcesUsername = Data.currentUser?['codeforces_id'] ?? '';
+      Data.leetcodeUsername = Data.currentUser?['leetcode']['id'] ?? '';
+      Data.codechefUsername = Data.currentUser?['codechef']['id'] ?? '';
+      Data.codeforcesUsername = Data.currentUser?['codeforces']['id'] ?? '';
       Data.bio = Data.currentUser?['bio'] ?? '';
       Data.roomsJoined = Functions.getRoomsJoined().toString();
       Data.roomsCreated = Functions.getRoomsCreated().toString();
@@ -347,38 +364,40 @@ class Functions {
         [
           'Leetcode',
           Data.leetcodeUsername,
-          (Data.currentUser?['leetcode_rating'] ?? '').toString(),
-          (Data.currentUser?['number_of_leetcode_contests'] ?? '0').toString(),
-          Functions.get_badge(0, Data.currentUser?['leetcode_rating'] ?? 0),
-          (Data.currentUser?['number_of_leetcode_questions'] ?? '0').toString(),
-          (Data.currentUser?['global_rank_leetcode'] ?? '').toString() == '-1' ? '' : (Data.currentUser?['global_rank_leetcode'] ?? '').toString(),
+          (Data.currentUser?['leetcode']['rating'] ?? '').toString(),
+          (Data.currentUser?['leetcode']['number_of_contests'] ?? '0').toString(),
+          Functions.get_badge(0, Data.currentUser?['leetcode']['rating'] ?? 0),
+          (Data.currentUser?['leetcode']['number_of_questions'] ?? '0').toString(),
+          (Data.currentUser?['leetcode']['global_rank'] ?? '').toString() == '-1' ? '' : (Data.currentUser?['leetcode']['global_rank'] ?? '').toString(),
         ],
         [
           'Codechef',
           Data.codechefUsername,
-          (Data.currentUser?['codechef_rating'] ?? '').toString(),
-          (Data.currentUser?['number_of_codechef_contests'] ?? '0').toString(),
-          Functions.get_badge(1, Data.currentUser?['codechef_rating'] ?? 0),
-          (Data.currentUser?['number_of_codechef_questions'] ?? '0').toString(),
-          (Data.currentUser?['global_rank_codechef'] ?? '').toString() == '-1' ? '' : (Data.currentUser?['global_rank_codechef'] ?? '').toString(),
+          (Data.currentUser?['codechef']['rating'] ?? '').toString(),
+          (Data.currentUser?['codechef']['number_of_contests'] ?? '0').toString(),
+          Functions.get_badge(1, Data.currentUser?['codechef']['rating'] ?? 0),
+          (Data.currentUser?['codechef']['number_of_questions'] ?? '0').toString(),
+          (Data.currentUser?['codechef']['global_rank'] ?? '').toString() == '-1' ? '' : (Data.currentUser?['codechef']['global_rank'] ?? '').toString(),
         ],
         [
           'Codeforces',
           Data.codeforcesUsername,
-          (Data.currentUser?['codeforces_rating'] ?? '').toString(),
-          (Data.currentUser?['number_of_codeforces_contests'] ?? '0').toString(),
-          Functions.get_badge(2, Data.currentUser?['codeforces_rating'] ?? 0),
-          (Data.currentUser?['number_of_codeforces_questions'] ?? '0').toString(),
+          (Data.currentUser?['codeforces']['rating'] ?? '').toString(),
+          (Data.currentUser?['codeforces']['number_of_contests'] ?? '0').toString(),
+          Functions.get_badge(2, Data.currentUser?['codeforces']['rating'] ?? 0),
+          (Data.currentUser?['codeforces']['number_of_questions'] ?? '0').toString(),
           '',
         ],
       ];
       getUserSubmissions(Data.username);
+      getUserContests(Data.username);
+      findUser('####', '####');
   }
 
   static Future<void> getUserSubmissions(String username) async {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
-    String apiUrl = '$url/user/$username/problems';
+    String apiUrl = '$url/user/$username/submissions';
 
     try {
       final response = await http.get(Uri.parse(apiUrl), headers: <String, String>{
@@ -388,19 +407,168 @@ class Functions {
         List<dynamic> submissions = jsonDecode(response.body) as List<dynamic>;
         Data.submissions = [[],[],[]];
         for(int i=0; i<submissions.length; ++i) {
-          if(submissions[i]['platform'] == 'LeetCode') {
+          if(submissions[i]['submission_link'].substring(8,16) == 'leetcode') {
             Data.submissions[0].add(submissions[i]);
-          } else if(submissions[i]['platform'] == 'Codechef') {
+          } else if(submissions[i]['submission_link'].substring(12,20) == 'codechef') {
             Data.submissions[1].add(submissions[i]);
-          } else if(submissions[i]['platform'] == 'Codeforces') {
+          } else if(submissions[i]['submission_link'].substring(8,18) == 'codeforces') {
             Data.submissions[2].add(submissions[i]);
           }
+        }
+        for (var subList in Data.submissions) {
+          subList.sort((a, b) => DateTime.parse(b['submitted_at']).compareTo(DateTime.parse(a['submitted_at'])));
         }
       } else {
         print('Error');
       }
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  static Future<void> getUserContests(String username) async {
+    String? authToken = dotenv.env['TOKEN'];
+    String? url = dotenv.env['URL'];
+    String apiUrl = '$url/user/$username/get-rating-changes';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl), headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+      });
+      if (response.statusCode == 200) {
+        List<dynamic> contests = jsonDecode(response.body) as List<dynamic>;
+        Data.contests = [[],[],[]];
+        for(int i=0; i<contests.length; ++i) {
+          if (contests[i]['contest']['platform'] == 'Leetcode') {
+            Data.contests[0].add(contests[i]);
+          }
+          if (contests[i]['contest']['platform'] == 'Codechef') {
+            Data.contests[1].add(contests[i]);
+          }
+          if (contests[i]['contest']['platform'] == 'Codeforces') {
+            Data.contests[2].add(contests[i]);
+          }
+        }
+        for (var subList in Data.contests) {
+          subList.sort((a, b) => DateTime.parse(b['contest']['start_time']).compareTo(DateTime.parse(a['contest']['start_time'])));
+        }
+      } else {
+        print('Error');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  static void updateSelectedUserPlatformData() {
+    Data.searchedUserPlatformData = [
+      [
+        (Data.searchedUser?['leetcode']['id'] ?? '').toString(),
+        Data.searchedUser?['leetcode']['number_of_questions'] ?? 0,
+        Functions.get_badge(0, Data.searchedUser?['leetcode']['rating'] ?? 0),
+      ],
+      [
+        (Data.searchedUser?['codechef']['id'] ?? '').toString(),
+        Data.searchedUser?['codechef']['number_of_questions'] ?? 0,
+        Functions.get_badge(1, Data.searchedUser?['codechef']['rating'] ?? 0),
+      ],
+      [
+        (Data.searchedUser?['codeforces']['id'] ?? '').toString(),
+        Data.searchedUser?['codeforces']['number_of_questions'] ?? 0,
+        Functions.get_badge(2, Data.searchedUser?['codeforces']['rating'] ?? 0),
+      ]
+    ];
+  }
+
+  static Future<void> getRooms(String username) async {
+    String? authToken = dotenv.env['TOKEN'];
+    String? url = dotenv.env['URL'];
+    String apiUrl = '$url/rooms';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl), headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+      });
+      if (response.statusCode == 200) {
+        Data.allRooms = jsonDecode(response.body) as List<dynamic>;
+        Data.userRooms = [];
+        Data.createdRooms = [];
+        for(int i=0; i<Data.allRooms.length; ++i) {
+          for(int j=0; j<Data.allRooms[i]['participants'].length; ++j) {
+            if(Data.allRooms[i]['participants'][j] == username) {
+              Data.userRooms.add(Data.allRooms[i]);
+            }
+          }
+          if(Data.allRooms[i]['host'] == username) {
+            Data.createdRooms.add(Data.allRooms[i]);
+          }
+        }
+        for (var subList in Data.userRooms) {
+          subList.sort((a, b) => DateTime.parse(b['updated']).compareTo(DateTime.parse(a['updated'])));
+        }
+        for (var subList in Data.createdRooms) {
+          subList.sort((a, b) => DateTime.parse(b['updated']).compareTo(DateTime.parse(a['updated'])));
+        }
+      } else {
+        print('Error');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  static getRoomChat(roomID) async {
+    String? authToken = dotenv.env['TOKEN'];
+    String? url = dotenv.env['URL'];
+    String apiUrl = '$url/room/$roomID/messages';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl), headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+      });
+      if (response.statusCode == 200) {
+        List<dynamic> roomChat = jsonDecode(response.body) as List<dynamic>;
+        Data.roomChats = roomChat;
+        for (var subList in Data.roomChats) {
+          subList.sort((a, b) => DateTime.parse(b['updated']).compareTo(DateTime.parse(a['updated'])));
+        }
+        Data.roomChats.reversed.toList();
+      } else {
+        print('Error');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  static addMessage(String message, String roomID) async {
+    String? authToken = dotenv.env['TOKEN'];
+    String? url = dotenv.env['URL'];
+    String apiUrl = '$url/room/$roomID/send-message';
+
+    try {
+      final Map<String, dynamic> requestBody = {
+        'sender': Data.username,
+        'message': message
+      };
+
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Authorization': 'Bearer $authToken',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(requestBody),
+      );
+      if (response.statusCode == 200) {
+        await Functions.getRoomChat(roomID);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return false;
     }
   }
 }

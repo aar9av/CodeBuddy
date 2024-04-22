@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Functionalities and Data/Functions.dart';
-import '../Start/Appbar.dart';
 import '../Start/Dashboard.dart';
 import '../Start/HomePage.dart';
 import 'EditProfile1.dart';
@@ -18,18 +17,17 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  Appbar(searchBarText: Data.searchBarText[6]),
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            minHeight: MediaQuery.of(context).size.height - 90,
+            minHeight: MediaQuery.of(context).size.height,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const SizedBox(
-                height: 30,
+                height: 90,
               ),
               SizedBox(
                 width: double.infinity,
@@ -297,7 +295,7 @@ class _ProfileState extends State<Profile> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    Data.roomsJoined,
+                                    Data.userRooms.length.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 28,
@@ -334,7 +332,7 @@ class _ProfileState extends State<Profile> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    Data.roomsCreated,
+                                    Data.createdRooms.length.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 28,

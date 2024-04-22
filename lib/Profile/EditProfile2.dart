@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Functionalities and Data/Functions.dart';
-import '../Start/Appbar.dart';
 import '../Start/Dashboard.dart';
 
 class EditProfile2 extends StatefulWidget {
@@ -44,7 +43,6 @@ class _EditProfile2State extends State<EditProfile2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbar(searchBarText: Data.searchBarText[6]),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -338,7 +336,7 @@ class _EditProfile2State extends State<EditProfile2> {
                                   MaterialPageRoute(builder: (context) => const DashBoard(),)
                                 );
                               } else {
-                                buildAlertBox('Unable to update Data !!!');
+                                showSnack('Unable to update data !!!');
                               }
                             },
                             child: loading ?
@@ -393,27 +391,17 @@ class _EditProfile2State extends State<EditProfile2> {
     );
   }
 
-  Future buildAlertBox(String s) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Data.themeColors[4],
-          title: const Text('ALERT'),
-          content: Text(s),
-          actions: [
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  loading = false;
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
+  void showSnack(String error) {
+    final snackBar = SnackBar(
+      content: Center(
+        child: Text(
+          error,
+          style: const TextStyle(
+            color: Colors.grey,
+          ),
+        ),
+      ),
     );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

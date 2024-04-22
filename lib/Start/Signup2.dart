@@ -103,6 +103,9 @@ class _Signup2State extends State<Signup2> {
                             MaterialPageRoute(builder: (context) => const DashBoard(),),
                           );
                         } else {
+                          setState(() {
+                            loading = false;
+                          });
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Center(

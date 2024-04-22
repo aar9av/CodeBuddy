@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../Functionalities and Data/Data.dart';
 import '../Functionalities and Data/Functions.dart';
-import '../Start/Appbar.dart';
 import '../Start/Dashboard.dart';
 
 class CreateRoom extends StatefulWidget {
@@ -22,7 +21,6 @@ class _CreateRoomState extends State<CreateRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  Appbar(searchBarText: Data.searchBarText[0]),
       body: Center(
         child: SingleChildScrollView(
           child: Container(

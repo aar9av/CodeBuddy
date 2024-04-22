@@ -65,7 +65,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: Container(
                     height: 40,
-                    width: MediaQuery.of(context).size.width/2 - 60,
+                    width: MediaQuery.of(context).size.width/2 - 50,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.yellowAccent,
@@ -98,13 +98,12 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const LoginPage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
                     );
                   },
                   child: Container(
                     height: 40,
-                    width: MediaQuery.of(context).size.width/2 - 60,
+                    width: MediaQuery.of(context).size.width/2 - 50,
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
