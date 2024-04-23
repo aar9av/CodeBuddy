@@ -244,7 +244,6 @@ class _SearchedUserState extends State<SearchedUser> {
                   children: [
                     Container(
                       margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.all(18),
                       height: 100,
                       width: 100,
                       decoration: BoxDecoration(
@@ -255,19 +254,19 @@ class _SearchedUserState extends State<SearchedUser> {
                         )
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             (Data.searchedUserPlatformData[0][1] + Data.searchedUserPlatformData[1][1] + Data.searchedUserPlatformData[2][1]).toString(),
                             style: const TextStyle(
-                              fontSize: 30,
+                              fontSize: 26,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           const Text(
                             'Solved',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                             ),
                           ),
                         ],

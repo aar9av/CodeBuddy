@@ -3,7 +3,6 @@
 import 'dart:math';
 import 'package:codebuddy/Functionalities%20and%20Data/Functions.dart';
 import 'package:codebuddy/Profile/SearchedUser.dart';
-import 'package:codebuddy/Room/RoomChat.dart';
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Platform/PlatformPage.dart';
@@ -135,7 +134,7 @@ class _DashBoardState extends State<DashBoard> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (
-                                        context) => SearchedRoom()),
+                                        context) => const SearchedRoom()),
                                   ).then((_) async {
                                     await Functions.getRooms(Data.username);
                                     setState(() {

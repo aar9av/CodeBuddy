@@ -1,12 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:codebuddy/Room/RoomDiscription.dart';
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
 import '../Functionalities and Data/Functions.dart';
 import 'SearchedRoomDescription.dart';
 
 class SearchedRoom extends StatefulWidget {
+  const SearchedRoom({super.key});
+
 
   @override
   _SearchedRoomState createState() => _SearchedRoomState();

@@ -156,7 +156,7 @@ class _ContestState extends State<Contest> {
                                           contest['contest']['title'] ?? '',
                                           style: TextStyle(
                                             color: Data.themeColors[5],
-                                            fontSize: 24,
+                                            fontSize: 22,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -184,7 +184,7 @@ class _ContestState extends State<Contest> {
                                         contest['rating_change']<0 ? '- (${-1*contest['rating_change']})' : '+ (${contest['rating_change']})' ?? '',
                                         style: TextStyle(
                                           color: contest['rating_change'] < 0 ? Colors.red : Colors.green,
-                                          fontSize: 24,
+                                          fontSize: 22,
                                         ),
                                       )
                                     ],
@@ -206,7 +206,7 @@ class _ContestState extends State<Contest> {
                                         contest['rank'].toString() ?? '',
                                         style: TextStyle(
                                           color: Data.themeColors[5],
-                                          fontSize: 24,
+                                          fontSize: 20,
                                         ),
                                       )
                                     ],
