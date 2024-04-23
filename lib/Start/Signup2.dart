@@ -30,7 +30,7 @@ class _Signup2State extends State<Signup2> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            height: 600,
+            height: 650,
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

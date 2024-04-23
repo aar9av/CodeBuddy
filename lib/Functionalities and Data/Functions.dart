@@ -148,7 +148,6 @@ class Functions {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
     String apiUrl = '$url/user/$username/create';
-
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
@@ -162,7 +161,7 @@ class Functions {
           "password": password,
           "first_name": firstName.trim(),
           "last_name": lastName.trim(),
-          "bio": bio,
+          "bio": bio == '' ? null : bio,
           "leetcode": {
             "user_id": leetcode_id == '' ? null : leetcode_id,
           },
