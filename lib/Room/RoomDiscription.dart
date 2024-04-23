@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Functionalities and Data/Data.dart';
+import '../Functionalities and Data/Functions.dart';
+import '../Profile/SearchedUser.dart';
 
 class RoomDescription extends StatelessWidget {
   final int index;
@@ -78,7 +80,6 @@ class RoomDescription extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Tags',
@@ -164,36 +165,47 @@ class RoomDescription extends StatelessWidget {
                       children: List.generate(
                         roomData['participants'].length,
                             (memberIndex) {
-                          return Container(
-                            width: 120,
-                            margin:  const EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              color:  const Color(0xFF1F1F1F),
-                              borderRadius:  const BorderRadius.all(Radius.circular(10)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Data.themeColors[5],
-                                  spreadRadius: 1,
-                                  blurRadius: 8,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'Assets/Profile.png',
-                                  height: 80,
-                                ),
-                                Text(
-                                  roomData['participants'][memberIndex],
-                                  style: TextStyle(
-                                    fontSize: 18,
+                          return GestureDetector(
+                            onTap: () async {
+                              await Functions.findUser(
+                                  roomData['participants'][memberIndex], '####');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (
+                                    context) => const SearchedUser()),
+                              );
+                            },
+                            child: Container(
+                              width: 120,
+                              margin:  const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color:  const Color(0xFF1F1F1F),
+                                borderRadius:  const BorderRadius.all(Radius.circular(10)),
+                                boxShadow: [
+                                  BoxShadow(
                                     color: Data.themeColors[5],
+                                    spreadRadius: 1,
+                                    blurRadius: 8,
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'Assets/Profile.png',
+                                    height: 80,
+                                  ),
+                                  Text(
+                                    roomData['participants'][memberIndex],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Data.themeColors[5],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },

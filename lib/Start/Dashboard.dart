@@ -293,6 +293,12 @@ class _DashBoardState extends State<DashBoard> {
       for (int i = 0; i < Data.allRooms.length && Data.searchResult.length <= 5; ++i) {
         if (Data.allRooms[i]['name'].contains(value) && Data.searchResult.length <= 5 && value != '') {
           Data.searchResult.add(Data.allRooms[i]);
+        } else {
+          for(int j = 0; j < Data.allRooms[i]['topics'].length && Data.searchResult.length <= 5; ++j) {
+            if(Data.allRooms[i]['topics'][j]['name'].contains(value) && Data.searchResult.length <= 5 && value != '') {
+              Data.searchResult.add(Data.allRooms[i]);
+            }
+          }
         }
       }
     });

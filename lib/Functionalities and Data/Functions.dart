@@ -164,13 +164,13 @@ class Functions {
           "last_name": lastName.trim(),
           "bio": bio,
           "leetcode": {
-            "id": leetcode_id == '' ? null : leetcode_id,
+            "user_id": leetcode_id == '' ? null : leetcode_id,
           },
           "codechef": {
-            "id": codechef_id == '' ? null : codechef_id,
+            "user_id": codechef_id == '' ? null : codechef_id,
           },
           "codeforces": {
-            "id": codeforces_id == '' ? null : codeforces_id,
+            "user_id": codeforces_id == '' ? null : codeforces_id,
           },
         }),
       );
@@ -276,13 +276,13 @@ class Functions {
         "last_name": lastName.trim(),
         "bio": bio,
         "leetcode": {
-          "id": leetcode == '' ? null : leetcode,
+          "user_id": leetcode == '' ? null : leetcode,
         },
         "codechef": {
-          "id": codechef == '' ? null : codechef,
+          "user_id": codechef == '' ? null : codechef,
         },
         "codeforces": {
-          "id": codeforces == '' ? null : codeforces,
+          "user_id": codeforces == '' ? null : codeforces,
         },
       };
       if (isPswd == true) {
@@ -318,9 +318,9 @@ class Functions {
       Data.username = Data.currentUser?['username'] ?? '';
       Data.name = (Data.currentUser?['first_name'] ?? '') + ' ' + (Data.currentUser?['last_name'] ?? '');
       Data.email = Data.currentUser?['email'] ?? '';
-      Data.leetcodeUsername = Data.currentUser?['leetcode']['id'] ?? '';
-      Data.codechefUsername = Data.currentUser?['codechef']['id'] ?? '';
-      Data.codeforcesUsername = Data.currentUser?['codeforces']['id'] ?? '';
+      Data.leetcodeUsername = Data.currentUser?['leetcode']['user_id'] ?? '';
+      Data.codechefUsername = Data.currentUser?['codechef']['user_id'] ?? '';
+      Data.codeforcesUsername = Data.currentUser?['codeforces']['user_id'] ?? '';
       Data.bio = Data.currentUser?['bio'] ?? '';
       Data.platformData = [
         [
@@ -438,17 +438,17 @@ class Functions {
     Data.searchedUser?['rooms_created'] = roomsCreated;
     Data.searchedUserPlatformData = [
       [
-        (Data.searchedUser?['leetcode']['id'] ?? '').toString(),
+        (Data.searchedUser?['leetcode']['user_id'] ?? '').toString(),
         Data.searchedUser?['leetcode']['number_of_questions'] ?? 0,
         Functions.get_badge(0, Data.searchedUser?['leetcode']['rating'] ?? 0),
       ],
       [
-        (Data.searchedUser?['codechef']['id'] ?? '').toString(),
+        (Data.searchedUser?['codechef']['user_id'] ?? '').toString(),
         Data.searchedUser?['codechef']['number_of_questions'] ?? 0,
         Functions.get_badge(1, Data.searchedUser?['codechef']['rating'] ?? 0),
       ],
       [
-        (Data.searchedUser?['codeforces']['id'] ?? '').toString(),
+        (Data.searchedUser?['codeforces']['user_id'] ?? '').toString(),
         Data.searchedUser?['codeforces']['number_of_questions'] ?? 0,
         Functions.get_badge(2, Data.searchedUser?['codeforces']['rating'] ?? 0),
       ]
@@ -512,7 +512,7 @@ class Functions {
     }
   }
 
-  static addMessage(String message, String roomID) async {
+  static addMessage(String message, String roomID, bool isSearched) async {
     String? authToken = dotenv.env['TOKEN'];
     String? url = dotenv.env['URL'];
     String apiUrl = '$url/room/$roomID/send-message';
@@ -532,7 +532,7 @@ class Functions {
         body: jsonEncode(requestBody),
       );
       if (response.statusCode == 200) {
-        await Functions.getRoomChat(roomID, true);
+        await Functions.getRoomChat(roomID, isSearched);
         return true;
       } else {
         return false;

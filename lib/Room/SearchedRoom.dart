@@ -148,7 +148,7 @@ class _SearchedRoomState extends State<SearchedRoom> {
                               isLoading = true;
                             });
                             bool chk = await Functions.addMessage(
-                                message.text, roomData['id'].toString());
+                                message.text, roomData['id'].toString(), true);
                             if (chk) {
                               setState(() {
                                 isLoading = false;

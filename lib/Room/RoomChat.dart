@@ -149,7 +149,7 @@ class _RoomChatState extends State<RoomChat> {
                               isLoading = true;
                             });
                             bool chk = await Functions.addMessage(
-                                message.text, roomData['id'].toString());
+                                message.text, roomData['id'].toString(), false);
                             if (chk) {
                               setState(() {
                                 isLoading = false;
