@@ -10,7 +10,10 @@ Arnav Gupta: 📱 Leading the Android application development efforts, utilizing
 
 Moreover, the project introduces a unique feature called Room discussions. This feature fosters collaboration within the coding community, allowing users to engage in meaningful discussions, seek assistance, and share insights with fellow enthusiasts. 💬🤝
 
+
 For those interested, here are some important links related to CodeBuddy:
+
+Presentation Link: https://drive.google.com/file/d/1AQsWQ_BKOgQA4tPajGX5lGUhr27q5vqj/view?usp=sharing
 
 Backend Scripts: https://github.com/princesharma74/CodeBuddy-Django-Project
 
@@ -21,5 +24,3 @@ Website Link: https://72zlh1l27i.execute-api.ap-south-1.amazonaws.com/dev
 Android Application: https://github.com/aar9av/CodeBuddy
 
 APK File: https://drive.google.com/file/d/1vbLtqYaq76j_pAND3tpDZYKlvnzOPv63/view?usp=sharing
-
-Presentation Link: 
