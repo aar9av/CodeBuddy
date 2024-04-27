@@ -13,8 +13,13 @@ Moreover, the project introduces a unique feature called Room discussions. This 
 For those interested, here are some important links related to CodeBuddy:
 
 Backend Scripts: https://github.com/princesharma74/CodeBuddy-Django-Project
+
 Web Application Code: https://github.com/princesharma74/giggle-nextjs-codebuddy
+
 Website Link: https://72zlh1l27i.execute-api.ap-south-1.amazonaws.com/dev
+
 Android Application: https://github.com/aar9av/CodeBuddy
+
 APK File: https://drive.google.com/file/d/1vbLtqYaq76j_pAND3tpDZYKlvnzOPv63/view?usp=sharing
+
 Presentation Link: 
